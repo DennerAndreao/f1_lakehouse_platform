@@ -1,0 +1,10 @@
+﻿# Terraform local working files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Environment-specific Terraform values
+**/terraform.tfvars
+**/*.auto.tfvars

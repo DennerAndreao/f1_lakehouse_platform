@@ -1,0 +1,4 @@
+﻿# Copy this file to terraform.tfvars and fill in environment-specific values.
+# Do not commit terraform.tfvars if it contains credentials or workspace-specific secrets.
+
+databricks_host = "https://<your-databricks-workspace-url>"
