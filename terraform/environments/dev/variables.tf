@@ -16,9 +16,9 @@ variable "databricks_host" {
 }
 
 variable "catalog_name" {
-  description = "Unity Catalog catalog name intended for the lakehouse resources."
+  description = "Unity Catalog catalog name for the dev lakehouse platform."
   type        = string
-  default     = "f1_lakehouse"
+  default     = "f1_lakehouse_dev"
 }
 
 variable "s3_bucket_name" {
