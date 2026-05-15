@@ -3,9 +3,14 @@
   value       = var.environment
 }
 
+output "catalog_name" {
+  description = "Catalog managed by this environment."
+  value       = module.catalog_foundation.catalog_name
+}
+
 output "lakehouse_schemas" {
   description = "Schemas currently used by the lakehouse architecture."
-  value       = sort(tolist(local.lakehouse_schemas))
+  value       = module.catalog_foundation.schema_names
 }
 
 output "s3_bucket_name" {
