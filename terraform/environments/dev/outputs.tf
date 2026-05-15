@@ -5,11 +5,7 @@
 
 output "lakehouse_schemas" {
   description = "Schemas currently used by the lakehouse architecture."
-  value = [
-    local.bronze_schema,
-    local.silver_schema,
-    local.gold_schema,
-  ]
+  value       = sort(tolist(local.lakehouse_schemas))
 }
 
 output "s3_bucket_name" {
