@@ -26,3 +26,22 @@ variable "s3_bucket_name" {
   type        = string
   default     = "f1-medallion-lakehouse"
 }
+
+variable "storage_credential_name" {
+  description = "Existing Unity Catalog storage credential used to access the S3 lakehouse bucket."
+  type        = string
+  default     = "db_s3_credentials_databricks-s3-ingest-da803"
+}
+
+variable "storage_credential_iam_role_arn" {
+  description = "IAM role ARN backing the existing Unity Catalog storage credential."
+  type        = string
+  default     = "arn:aws:iam::290909957115:role/databricks-s3-ingest-da803-db_s3_iam"
+}
+
+variable "external_location_name" {
+  description = "Existing Unity Catalog external location for the S3 lakehouse bucket."
+  type        = string
+  default     = "db_s3_external_databricks-s3-ingest-da803"
+}
+
