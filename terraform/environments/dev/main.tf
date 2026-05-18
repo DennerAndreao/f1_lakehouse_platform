@@ -42,3 +42,11 @@ module "catalog_foundation" {
   storage_root = "s3://${module.lakehouse_storage.bucket_name}/dev/managed"
   schemas      = local.lakehouse_schemas
 }
+
+module "unity_catalog_governance" {
+  source               = "../../modules/unity_catalog_governance"
+  catalog_name         = module.catalog_foundation.catalog_name
+  schema_ids           = module.catalog_foundation.schema_ids
+  external_location_id = databricks_external_location.lakehouse.id
+  principal_name       = var.governance_principal_name
+}

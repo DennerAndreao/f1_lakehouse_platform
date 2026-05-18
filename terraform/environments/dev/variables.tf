@@ -74,3 +74,9 @@ variable "external_location_name" {
   type        = string
   default     = "db_s3_external_databricks-s3-ingest-da803"
 }
+
+variable "governance_principal_name" {
+  description = "Current principal that receives dev Unity Catalog grants."
+  type        = string
+  default     = "dennermandreao@gmail.com"
+}
