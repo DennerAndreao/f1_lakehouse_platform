@@ -16,6 +16,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "aws_account_id" {
+  description = "AWS account ID that owns the dev lakehouse resources."
+  type        = string
+  default     = "290909957115"
+}
+
 variable "databricks_host" {
   description = "Databricks workspace URL used by the provider."
   type        = string
@@ -33,16 +39,34 @@ variable "s3_bucket_name" {
   default     = "f1-medallion-lakehouse"
 }
 
+variable "storage_access_role_name" {
+  description = "IAM role assumed by Databricks to access the lakehouse bucket."
+  type        = string
+  default     = "databricks-s3-ingest-da803-db_s3_iam"
+}
+
+variable "storage_access_policy_name" {
+  description = "Inline IAM policy attached to the Databricks storage access role."
+  type        = string
+  default     = "databricks-s3-ingest-da803-access-data-buckets"
+}
+
+variable "storage_access_instance_profile_name" {
+  description = "IAM instance profile associated with the Databricks storage access role."
+  type        = string
+  default     = "databricks-s3-ingest-da803-access-data-buckets"
+}
+
+variable "storage_access_external_id" {
+  description = "External ID used in the Databricks storage access role trust policy."
+  type        = string
+  default     = "c33ad460-73b5-4d63-acbe-dd7b78ff4cfa"
+}
+
 variable "storage_credential_name" {
   description = "Existing Unity Catalog storage credential used to access the S3 lakehouse bucket."
   type        = string
   default     = "db_s3_credentials_databricks-s3-ingest-da803"
-}
-
-variable "storage_credential_iam_role_arn" {
-  description = "IAM role ARN backing the existing Unity Catalog storage credential."
-  type        = string
-  default     = "arn:aws:iam::290909957115:role/databricks-s3-ingest-da803-db_s3_iam"
 }
 
 variable "external_location_name" {
