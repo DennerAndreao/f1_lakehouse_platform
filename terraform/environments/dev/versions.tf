@@ -13,5 +13,10 @@
       source  = "databricks/databricks"
       version = "~> 1.115"
     }
+
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.45"
+    }
   }
 }

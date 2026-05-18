@@ -10,6 +10,12 @@ variable "project_name" {
   default     = "f1-lakehouse"
 }
 
+variable "aws_region" {
+  description = "AWS region used by the dev environment."
+  type        = string
+  default     = "us-east-1"
+}
+
 variable "databricks_host" {
   description = "Databricks workspace URL used by the provider."
   type        = string
@@ -44,4 +50,3 @@ variable "external_location_name" {
   type        = string
   default     = "db_s3_external_databricks-s3-ingest-da803"
 }
-
