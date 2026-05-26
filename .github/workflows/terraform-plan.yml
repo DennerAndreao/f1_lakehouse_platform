@@ -44,5 +44,33 @@ jobs:
         run: terraform init -input=false
 
       - name: Terraform plan
-        run: terraform plan -input=false -no-color
+        id: plan
+        shell: bash
+        run: |
+          set +e
+          terraform plan -input=false -no-color -out=tfplan.binary 2>&1 | tee tfplan.txt
+          exit_code=${PIPESTATUS[0]}
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          exit "${exit_code}"
 
+      - name: Publish Terraform plan summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## Terraform Plan" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Environment:** dev" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Exit code:** ${{ steps.plan.outputs.exit_code || 'not available' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "<details><summary>Show plan output</summary>" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo '```text' >> "$GITHUB_STEP_SUMMARY"
+          if [ -f tfplan.txt ]; then
+            cat tfplan.txt >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Terraform plan output file was not created." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "</details>" >> "$GITHUB_STEP_SUMMARY"
