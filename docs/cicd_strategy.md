@@ -22,7 +22,7 @@ This workflow intentionally does not use cloud credentials. It validates code st
 
 ## Next CI/CD stage
 
-The next stage is an authenticated Terraform plan workflow.
+The authenticated Terraform plan workflow is now implemented. The next stage is improving PR feedback and then designing controlled apply.
 
 Planned order:
 
@@ -31,10 +31,11 @@ Planned order:
    - fmt
    - validate
 
-2. Authenticated plan
+2. Authenticated plan ✅
    - access remote state
    - refresh AWS and Databricks resources
    - generate a Terraform plan
+   - publish plan output in the GitHub Actions job summary
    - do not apply
 
 3. PR feedback
@@ -105,4 +106,5 @@ This avoids mixing lightweight validation with privileged deployment behavior.
 
 ## Current recommendation
 
-Implement the next workflow as `terraform-plan.yml` only after creating the AWS GitHub OIDC role and adding the Databricks token as a GitHub secret.
+Next recommended step: add pull request feedback around the existing `terraform-plan.yml` workflow, then design a separate controlled `terraform-apply.yml` workflow.
+

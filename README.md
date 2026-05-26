@@ -7,8 +7,9 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~50%
-IaC foundation: ~95%
+Phase 2 overall: ~62%
+IaC foundation: 100%
+CI/CD: ~60%
 ```
 
 ## What this repository demonstrates
@@ -100,10 +101,12 @@ C:\terraform\terraform.exe plan
 
 ### 2. CI/CD
 
-- [ ] Terraform formatting check
-- [ ] Terraform validation workflow
-- [ ] Pull request checks
-- [ ] GitHub Actions authentication strategy
+- [x] Terraform formatting check
+- [x] Terraform validation workflow
+- [x] GitHub Actions authentication strategy for plan
+- [x] Authenticated Terraform plan workflow
+- [x] Plan output in GitHub Actions summary
+- [ ] Pull request plan comments
 - [ ] Controlled deployment workflow
 
 ### 3. Incremental ingestion
