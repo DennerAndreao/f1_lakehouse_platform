@@ -1,4 +1,4 @@
-﻿locals {
+locals {
   github_repo = "${var.github_owner}/${var.github_repository}"
 
   terraform_state_lock_key = "${var.terraform_state_key}.tflock"
@@ -122,6 +122,34 @@ data "aws_iam_policy_document" "terraform_plan" {
     ]
   }
 
+
+  statement {
+    sid = "ReadGitHubActionsOidcProvider"
+
+    actions = [
+      "iam:GetOpenIDConnectProvider",
+    ]
+
+    resources = [
+      aws_iam_openid_connect_provider.github.arn,
+    ]
+  }
+
+  statement {
+    sid = "ReadGitHubActionsTerraformPlanRole"
+
+    actions = [
+      "iam:GetRole",
+      "iam:GetRolePolicy",
+      "iam:ListRolePolicies",
+      "iam:ListAttachedRolePolicies",
+    ]
+
+    resources = [
+      "arn:aws:iam::${var.aws_account_id}:role/${var.role_name}",
+    ]
+  }
+
   statement {
     sid = "ReadDatabricksStorageIamResources"
 
@@ -150,3 +178,4 @@ resource "aws_iam_role_policy" "terraform_plan" {
   role   = aws_iam_role.terraform_plan.id
   policy = data.aws_iam_policy_document.terraform_plan.json
 }
+
