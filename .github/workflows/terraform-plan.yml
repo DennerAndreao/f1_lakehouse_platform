@@ -22,6 +22,7 @@ jobs:
 
     env:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      TF_VAR_databricks_host: https://dbc-3e119ffc-1535.cloud.databricks.com
 
     steps:
       - name: Checkout repository
@@ -44,3 +45,4 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -input=false -no-color
+
