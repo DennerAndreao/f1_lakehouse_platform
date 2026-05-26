@@ -1,4 +1,4 @@
-﻿resource "aws_s3_bucket" "lakehouse" {
+resource "aws_s3_bucket" "lakehouse" {
   bucket = var.bucket_name
 }
 

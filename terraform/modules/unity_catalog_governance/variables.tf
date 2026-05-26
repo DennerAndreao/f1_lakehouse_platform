@@ -1,4 +1,4 @@
-﻿variable "catalog_name" {
+variable "catalog_name" {
   description = "Unity Catalog catalog managed by the governance module."
   type        = string
 }

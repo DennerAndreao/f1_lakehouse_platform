@@ -1,4 +1,4 @@
-﻿variable "catalog_name" {
+variable "catalog_name" {
   description = "Unity Catalog catalog name for the lakehouse platform."
   type        = string
 }

@@ -1,4 +1,4 @@
-﻿output "role_name" {
+output "role_name" {
   description = "Name of the Databricks storage access IAM role."
   value       = aws_iam_role.storage_access.name
 }

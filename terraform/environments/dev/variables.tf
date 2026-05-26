@@ -1,4 +1,4 @@
-﻿variable "environment" {
+variable "environment" {
   description = "Logical deployment environment for this Terraform root module."
   type        = string
   default     = "dev"

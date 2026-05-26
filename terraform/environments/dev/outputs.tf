@@ -1,4 +1,4 @@
-﻿output "environment" {
+output "environment" {
   description = "Environment represented by this Terraform root module."
   value       = var.environment
 }

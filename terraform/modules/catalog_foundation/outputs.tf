@@ -1,4 +1,4 @@
-﻿output "catalog_name" {
+output "catalog_name" {
   description = "Name of the managed Unity Catalog catalog."
   value       = databricks_catalog.lakehouse.name
 }

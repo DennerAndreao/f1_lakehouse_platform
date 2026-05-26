@@ -1,4 +1,4 @@
-﻿locals {
+locals {
   lakehouse_schemas = toset([
     "bronze",
     "silver",

@@ -1,4 +1,4 @@
-﻿resource "databricks_catalog" "lakehouse" {
+resource "databricks_catalog" "lakehouse" {
   name         = var.catalog_name
   comment      = "Development catalog for the F1 Lakehouse platform."
   storage_root = var.storage_root

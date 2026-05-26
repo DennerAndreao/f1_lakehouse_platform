@@ -1,4 +1,4 @@
-﻿variable "role_name" {
+variable "role_name" {
   description = "IAM role used by Databricks to access the lakehouse bucket."
   type        = string
 }

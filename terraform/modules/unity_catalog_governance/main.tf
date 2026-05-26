@@ -1,4 +1,4 @@
-﻿resource "databricks_grant" "catalog_engineer" {
+resource "databricks_grant" "catalog_engineer" {
   catalog    = var.catalog_name
   principal  = var.principal_name
   privileges = ["USE_CATALOG"]
