@@ -41,7 +41,7 @@ f1_lakehouse_dev
 └── gold
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview.
+See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview. See [`docs/cicd_strategy.md`](docs/cicd_strategy.md) for the CI/CD roadmap and authentication strategy.
 
 ## Repository structure
 
@@ -132,3 +132,4 @@ C:\terraform\terraform.exe plan
 Phase 1 proved the analytical lakehouse pattern with Formula 1 data and Power BI reporting.
 
 Phase 2 turns that foundation into a governed platform layer, emphasizing reproducibility, cloud-native architecture, security boundaries, and operational readiness.
+

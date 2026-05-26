@@ -1,4 +1,4 @@
-locals {
+﻿locals {
   lakehouse_schemas = toset([
     "bronze",
     "silver",
@@ -19,6 +19,20 @@ module "storage_access_iam" {
   account_id            = var.aws_account_id
   lakehouse_bucket_arn  = module.lakehouse_storage.bucket_arn
   external_id           = var.storage_access_external_id
+}
+
+module "github_actions_iam" {
+  source                               = "../../modules/github_actions_iam"
+  aws_account_id                       = var.aws_account_id
+  github_owner                         = var.github_owner
+  github_repository                    = var.github_repository
+  role_name                            = var.github_actions_plan_role_name
+  terraform_state_bucket_name          = var.terraform_state_bucket_name
+  terraform_state_key                  = var.terraform_state_key
+  lakehouse_bucket_name                = var.s3_bucket_name
+  storage_access_role_name             = var.storage_access_role_name
+  storage_access_policy_name           = var.storage_access_policy_name
+  storage_access_instance_profile_name = var.storage_access_instance_profile_name
 }
 
 resource "databricks_storage_credential" "lakehouse" {

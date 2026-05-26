@@ -1,4 +1,4 @@
-variable "environment" {
+﻿variable "environment" {
   description = "Logical deployment environment for this Terraform root module."
   type        = string
   default     = "dev"
@@ -25,6 +25,36 @@ variable "aws_account_id" {
 variable "databricks_host" {
   description = "Databricks workspace URL used by the provider."
   type        = string
+}
+
+variable "github_owner" {
+  description = "GitHub owner allowed to assume Terraform CI/CD roles."
+  type        = string
+  default     = "DennerAndreao"
+}
+
+variable "github_repository" {
+  description = "GitHub repository allowed to assume Terraform CI/CD roles."
+  type        = string
+  default     = "f1_lakehouse_platform"
+}
+
+variable "github_actions_plan_role_name" {
+  description = "IAM role name assumed by GitHub Actions for Terraform plan."
+  type        = string
+  default     = "github-actions-terraform-plan-f1-lakehouse"
+}
+
+variable "terraform_state_bucket_name" {
+  description = "S3 bucket that stores Terraform remote state."
+  type        = string
+  default     = "f1-lakehouse-terraform-state"
+}
+
+variable "terraform_state_key" {
+  description = "S3 key for the dev Terraform state file."
+  type        = string
+  default     = "f1-lakehouse-platform/dev/terraform.tfstate"
 }
 
 variable "catalog_name" {
