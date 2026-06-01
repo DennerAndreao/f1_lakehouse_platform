@@ -10,6 +10,8 @@ on:
 permissions:
   contents: read
   id-token: write
+  issues: write
+  pull-requests: write
 
 jobs:
   terraform-plan:
@@ -74,3 +76,73 @@ jobs:
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "</details>" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment Terraform plan on pull request
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        env:
+          PLAN_EXIT_CODE: ${{ steps.plan.outputs.exit_code || 'not available' }}
+          PLAN_FILE: terraform/environments/dev/tfplan.txt
+        with:
+          script: |
+            const fs = require('fs');
+
+            const marker = '<!-- terraform-plan-comment -->';
+            const planPath = process.env.PLAN_FILE;
+            const exitCode = process.env.PLAN_EXIT_CODE;
+            const maxPlanLength = 60000;
+
+            let plan = 'Terraform plan output file was not created.';
+            if (fs.existsSync(planPath)) {
+              plan = fs.readFileSync(planPath, 'utf8');
+            }
+
+            if (plan.length > maxPlanLength) {
+              plan = `${plan.slice(0, maxPlanLength)}\n\n... plan output truncated. See the workflow logs for the full output.`;
+            }
+
+            const body = [
+              marker,
+              '## Terraform Plan',
+              '',
+              '**Environment:** `dev`',
+              `**Exit code:** \`${exitCode}\``,
+              '',
+              '<details><summary>Show plan output</summary>',
+              '',
+              '```text',
+              plan,
+              '```',
+              '',
+              '</details>',
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const previous = comments.data.find((comment) =>
+              comment.user.type === 'Bot' && comment.body.includes(marker)
+            );
+
+            if (previous) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: previous.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }
