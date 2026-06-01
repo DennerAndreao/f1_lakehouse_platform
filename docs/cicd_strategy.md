@@ -31,15 +31,16 @@ Planned order:
    - fmt
    - validate
 
-2. Authenticated plan ✅
+2. Authenticated plan [implemented]
    - access remote state
    - refresh AWS and Databricks resources
    - generate a Terraform plan
    - publish plan output in the GitHub Actions job summary
    - do not apply
 
-3. PR feedback
+3. PR feedback [implemented]
    - publish plan summary in pull requests
+   - update the same bot comment on repeated runs
 
 4. Controlled deployment
    - apply only from main or manual approval
@@ -106,5 +107,5 @@ This avoids mixing lightweight validation with privileged deployment behavior.
 
 ## Current recommendation
 
-Next recommended step: add pull request feedback around the existing `terraform-plan.yml` workflow, then design a separate controlled `terraform-apply.yml` workflow.
+Next recommended step: validate pull request feedback with a small PR, then design a separate controlled `terraform-apply.yml` workflow.
 
