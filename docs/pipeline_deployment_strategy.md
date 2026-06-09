@@ -1,6 +1,6 @@
 # Pipeline Deployment Strategy
 
-This document captures the target enterprise deployment flow for future Databricks pipeline code, such as notebooks, jobs, dbt models, and new Gold layer tables.
+This document captures the target enterprise deployment flow for Databricks pipeline code, such as notebooks, jobs, dbt models, and new Gold layer tables.
 
 ## Key distinction
 
@@ -80,6 +80,19 @@ prod
 ```
 
 Until STG and PROD exist, the project should avoid pretending they are real. Instead, the CI/CD design should remain explicit: Terraform deploys platform infrastructure to dev, while future Databricks Asset Bundles or dbt workflows will deploy pipeline code separately.
+
+## Current notebook migration
+
+The Phase 1 notebooks have been migrated into this repository as Databricks source notebooks:
+
+```text
+databricks/notebooks/
+??? bronze/
+??? silver/
+??? gold/
+```
+
+This first migration intentionally preserves full-refresh behavior. Incremental ingestion is deferred because the Formula 1 dataset is currently small and the priority is to consolidate repository structure, deployment flow, data quality, and observability first.
 
 ## Future workflow direction
 

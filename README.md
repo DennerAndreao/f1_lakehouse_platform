@@ -7,9 +7,10 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~72%
+Phase 2 overall: ~75%
 IaC foundation: 100%
 CI/CD: ~90%
+Pipeline code versioning: started
 ```
 
 ## What this repository demonstrates
@@ -27,6 +28,7 @@ CI/CD: ~90%
 - GitHub Actions OIDC roles for Terraform plan and controlled apply
 - Pull request Terraform plan feedback
 - Manual controlled Terraform apply for dev
+- Phase 1 Databricks notebooks migrated as source notebooks
 
 ## Architecture summary
 
@@ -115,12 +117,13 @@ C:\terraform\terraform.exe plan
 - [x] First manual apply validation from GitHub Actions
 - [ ] Future deployment model for Databricks pipeline assets
 
-### 3. Incremental ingestion
+### 3. Databricks pipeline code
 
-- [ ] Watermark strategy
-- [ ] Incremental race/season ingestion
-- [ ] Delta merge strategy
-- [ ] Batch metadata
+- [x] Bring Phase 1 notebooks into the platform repository
+- [x] Store notebooks as Databricks `.py` source notebooks
+- [ ] Refactor notebooks for Unity Catalog catalog/schema naming
+- [ ] Prepare Databricks Asset Bundles structure
+- [ ] Add Databricks pipeline deployment workflow
 
 ### 4. Data quality
 
@@ -135,6 +138,15 @@ C:\terraform\terraform.exe plan
 - [ ] Execution metrics
 - [ ] Data quality metrics
 - [ ] Operational dashboard
+
+### 6. Incremental ingestion
+
+Deferred intentionally while the data volume remains small and the platform/pipeline deployment model is still being consolidated.
+
+- [ ] Watermark strategy
+- [ ] Incremental race/season ingestion
+- [ ] Delta merge strategy
+- [ ] Batch metadata
 
 ## Relationship to Phase 1
 
