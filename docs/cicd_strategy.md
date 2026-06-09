@@ -22,7 +22,7 @@ This workflow intentionally does not use cloud credentials. It validates code st
 
 ## Next CI/CD stage
 
-The authenticated Terraform plan workflow and PR feedback are now implemented. The current stage is validating controlled apply through a separate manual workflow.
+The authenticated Terraform plan workflow, PR feedback, and controlled dev apply workflow are implemented and validated.
 
 Planned order:
 
@@ -42,11 +42,11 @@ Planned order:
    - publish plan summary in pull requests
    - update the same bot comment on repeated runs
 
-4. Controlled deployment [in progress]
+4. Controlled deployment [implemented]
    - separate apply IAM role created
    - manual workflow created
    - apply only from main through the dev environment
-   - first GitHub Actions apply validation pending
+   - first GitHub Actions apply validation completed
 ```
 
 ## Authentication strategy
@@ -114,5 +114,5 @@ This avoids mixing lightweight validation with privileged deployment behavior.
 
 ## Current recommendation
 
-Next recommended step: run the first manual `terraform-apply.yml` execution from GitHub Actions and confirm that it completes with no infrastructure drift.
+Next recommended step: preserve Terraform as the infrastructure deployment path and introduce a separate Databricks pipeline deployment path for notebooks, jobs, dbt models, and future Gold tables.
 

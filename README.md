@@ -1,4 +1,4 @@
-﻿# F1 Lakehouse Platform
+# F1 Lakehouse Platform
 
 Phase 2 evolution of the original F1 Lakehouse project, focused on turning a functional analytical lakehouse into a production-oriented cloud data platform.
 
@@ -7,9 +7,9 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~68%
+Phase 2 overall: ~72%
 IaC foundation: 100%
-CI/CD: ~75%
+CI/CD: ~90%
 ```
 
 ## What this repository demonstrates
@@ -26,6 +26,7 @@ CI/CD: ~75%
 - Reusable Terraform modules
 - GitHub Actions OIDC roles for Terraform plan and controlled apply
 - Pull request Terraform plan feedback
+- Manual controlled Terraform apply for dev
 
 ## Architecture summary
 
@@ -44,7 +45,7 @@ f1_lakehouse_dev
 └── gold
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview. See [`docs/cicd_strategy.md`](docs/cicd_strategy.md) for the CI/CD roadmap and authentication strategy.
+See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview. See [`docs/cicd_strategy.md`](docs/cicd_strategy.md) for the CI/CD roadmap and authentication strategy. See [`docs/pipeline_deployment_strategy.md`](docs/pipeline_deployment_strategy.md) for the future Databricks pipeline deployment model.
 
 ## Repository structure
 
@@ -111,7 +112,8 @@ C:\terraform\terraform.exe plan
 - [x] Pull request plan comments
 - [x] Separate IAM role for controlled apply
 - [x] Controlled deployment workflow
-- [ ] First manual apply validation from GitHub Actions
+- [x] First manual apply validation from GitHub Actions
+- [ ] Future deployment model for Databricks pipeline assets
 
 ### 3. Incremental ingestion
 
