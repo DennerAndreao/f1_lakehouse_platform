@@ -1,4 +1,4 @@
-﻿locals {
+locals {
   github_repo = "${var.github_owner}/${var.github_repository}"
 
   terraform_state_lock_key = "${var.terraform_state_key}.tflock"
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "github_actions_apply_assume_role" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:${local.github_repo}:ref:refs/heads/main",
+        "repo:${local.github_repo}:environment:dev",
       ]
     }
   }
