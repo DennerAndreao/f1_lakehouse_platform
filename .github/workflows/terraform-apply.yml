@@ -1,0 +1,47 @@
+﻿name: Terraform Apply
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terraform-apply:
+    name: Terraform controlled apply
+    runs-on: ubuntu-latest
+    environment: dev
+
+    defaults:
+      run:
+        working-directory: terraform/environments/dev
+
+    env:
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      TF_VAR_databricks_host: https://dbc-3e119ffc-1535.cloud.databricks.com
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Configure AWS credentials through OIDC
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: arn:aws:iam::290909957115:role/github-actions-terraform-apply-f1-lakehouse
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.3
+          terraform_wrapper: false
+
+      - name: Terraform init
+        run: terraform init -input=false
+
+      - name: Terraform plan before apply
+        run: terraform plan -input=false -no-color -out=tfplan.binary
+
+      - name: Terraform apply
+        run: terraform apply -input=false -no-color tfplan.binary

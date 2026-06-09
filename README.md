@@ -7,9 +7,9 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~62%
+Phase 2 overall: ~68%
 IaC foundation: 100%
-CI/CD: ~60%
+CI/CD: ~75%
 ```
 
 ## What this repository demonstrates
@@ -24,6 +24,8 @@ CI/CD: ~60%
 - Databricks Storage Credential and External Location
 - Unity Catalog grants for the current development principal
 - Reusable Terraform modules
+- GitHub Actions OIDC roles for Terraform plan and controlled apply
+- Pull request Terraform plan feedback
 
 ## Architecture summary
 
@@ -106,8 +108,10 @@ C:\terraform\terraform.exe plan
 - [x] GitHub Actions authentication strategy for plan
 - [x] Authenticated Terraform plan workflow
 - [x] Plan output in GitHub Actions summary
-- [ ] Pull request plan comments
-- [ ] Controlled deployment workflow
+- [x] Pull request plan comments
+- [x] Separate IAM role for controlled apply
+- [x] Controlled deployment workflow
+- [ ] First manual apply validation from GitHub Actions
 
 ### 3. Incremental ingestion
 

@@ -1,4 +1,4 @@
-﻿variable "environment" {
+variable "environment" {
   description = "Logical deployment environment for this Terraform root module."
   type        = string
   default     = "dev"
@@ -43,6 +43,12 @@ variable "github_actions_plan_role_name" {
   description = "IAM role name assumed by GitHub Actions for Terraform plan."
   type        = string
   default     = "github-actions-terraform-plan-f1-lakehouse"
+}
+
+variable "github_actions_apply_role_name" {
+  description = "IAM role name assumed by GitHub Actions for controlled Terraform apply."
+  type        = string
+  default     = "github-actions-terraform-apply-f1-lakehouse"
 }
 
 variable "terraform_state_bucket_name" {

@@ -1,4 +1,4 @@
-﻿variable "aws_account_id" {
+variable "aws_account_id" {
   description = "AWS account ID where the GitHub Actions OIDC role is created."
   type        = string
 }
@@ -13,8 +13,13 @@ variable "github_repository" {
   type        = string
 }
 
-variable "role_name" {
+variable "plan_role_name" {
   description = "IAM role name assumed by GitHub Actions for Terraform plan."
+  type        = string
+}
+
+variable "apply_role_name" {
+  description = "IAM role name assumed by GitHub Actions for controlled Terraform apply."
   type        = string
 }
 

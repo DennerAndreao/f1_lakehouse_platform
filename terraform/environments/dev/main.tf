@@ -1,4 +1,4 @@
-﻿locals {
+locals {
   lakehouse_schemas = toset([
     "bronze",
     "silver",
@@ -26,7 +26,8 @@ module "github_actions_iam" {
   aws_account_id                       = var.aws_account_id
   github_owner                         = var.github_owner
   github_repository                    = var.github_repository
-  role_name                            = var.github_actions_plan_role_name
+  plan_role_name                       = var.github_actions_plan_role_name
+  apply_role_name                      = var.github_actions_apply_role_name
   terraform_state_bucket_name          = var.terraform_state_bucket_name
   terraform_state_key                  = var.terraform_state_key
   lakehouse_bucket_name                = var.s3_bucket_name

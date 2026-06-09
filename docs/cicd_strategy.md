@@ -22,7 +22,7 @@ This workflow intentionally does not use cloud credentials. It validates code st
 
 ## Next CI/CD stage
 
-The authenticated Terraform plan workflow is now implemented. The next stage is improving PR feedback and then designing controlled apply.
+The authenticated Terraform plan workflow and PR feedback are now implemented. The current stage is validating controlled apply through a separate manual workflow.
 
 Planned order:
 
@@ -42,8 +42,11 @@ Planned order:
    - publish plan summary in pull requests
    - update the same bot comment on repeated runs
 
-4. Controlled deployment
-   - apply only from main or manual approval
+4. Controlled deployment [in progress]
+   - separate apply IAM role created
+   - manual workflow created
+   - apply only from main through the dev environment
+   - first GitHub Actions apply validation pending
 ```
 
 ## Authentication strategy
@@ -58,13 +61,17 @@ Rationale:
 - issues short-lived credentials per workflow run
 - can restrict access to this repository, branch, and workflow context
 
-The AWS role should initially support Terraform plan operations for the `dev` environment:
+The project uses separate AWS roles for CI/CD stages:
 
-- read remote state from S3
-- use S3 lockfile operations
-- read managed AWS resources such as S3 bucket configuration and IAM role/policy/profile
+```text
+github-actions-terraform-plan-f1-lakehouse
+-> pull requests and plan-only workflows
 
-Apply permissions can be introduced later as a separate role or as a protected workflow path.
+github-actions-terraform-apply-f1-lakehouse
+-> controlled manual apply from main
+```
+
+The plan role can read remote state, use the S3 lockfile, and inspect managed AWS resources. The apply role adds controlled write permissions required for Terraform state updates and managed infrastructure changes.
 
 ### Databricks
 
@@ -100,12 +107,12 @@ terraform-plan.yml
 -> authenticated plan, no apply
 
 terraform-apply.yml
--> controlled deployment, later
+-> manual controlled deployment for dev
 ```
 
 This avoids mixing lightweight validation with privileged deployment behavior.
 
 ## Current recommendation
 
-Next recommended step: validate pull request feedback with a small PR, then design a separate controlled `terraform-apply.yml` workflow.
+Next recommended step: run the first manual `terraform-apply.yml` execution from GitHub Actions and confirm that it completes with no infrastructure drift.
 

@@ -1,4 +1,4 @@
-﻿output "environment" {
+output "environment" {
   description = "Environment represented by this Terraform root module."
   value       = var.environment
 }
@@ -20,5 +20,10 @@ output "s3_bucket_name" {
 
 output "github_actions_plan_role_arn" {
   description = "IAM role ARN to be used by GitHub Actions for Terraform plan."
-  value       = module.github_actions_iam.role_arn
+  value       = module.github_actions_iam.plan_role_arn
+}
+
+output "github_actions_apply_role_arn" {
+  description = "IAM role ARN to be used by GitHub Actions for controlled Terraform apply."
+  value       = module.github_actions_iam.apply_role_arn
 }
