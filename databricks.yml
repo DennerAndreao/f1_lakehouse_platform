@@ -5,16 +5,9 @@ include:
   - databricks/resources/*.yml
 
 variables:
-  databricks_host:
-    description: Databricks workspace host used by the bundle target.
-    default: https://dbc-3e119ffc-1535.cloud.databricks.com
-
   existing_cluster_id:
     description: Existing interactive or job-capable cluster used to run the first full-refresh workflow.
     default: REPLACE_WITH_CLUSTER_ID
-
-workspace:
-  host: ${var.databricks_host}
 
 sync:
   include:
@@ -31,4 +24,5 @@ targets:
     default: true
     mode: development
     workspace:
+      host: https://dbc-3e119ffc-1535.cloud.databricks.com
       root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
