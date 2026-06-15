@@ -35,3 +35,46 @@ Planned evolution:
 ```
 
 Terraform remains responsible for infrastructure. Databricks pipeline deployment will be handled separately.
+
+
+## Databricks Asset Bundle
+
+The repository now includes the first Declarative Automation Bundle / Databricks Asset Bundle scaffold:
+
+```text
+databricks.yml
+databricks/resources/jobs.yml
+```
+
+The first bundle resource is a full-refresh workflow:
+
+```text
+f1_lakehouse_full_refresh
+```
+
+It models the medallion dependencies explicitly:
+
+```text
+Bronze ingestion
+-> Silver dimensions/facts
+-> Gold analytical tables
+```
+
+The job currently uses an `existing_cluster_id` variable instead of creating a new cluster. This avoids accidental compute creation and keeps the first bundle iteration safe. Before deploying or running the bundle, replace or override:
+
+```text
+existing_cluster_id = REPLACE_WITH_CLUSTER_ID
+```
+
+Future CI/CD evolution:
+
+```text
+databricks bundle validate
+-> pull request validation
+
+databricks bundle deploy -t dev
+-> manual or controlled dev deployment
+
+databricks bundle run -t dev f1_lakehouse_full_refresh
+-> execute the full-refresh job
+```

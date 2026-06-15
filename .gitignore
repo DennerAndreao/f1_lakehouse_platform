@@ -8,3 +8,7 @@ crash.*.log
 # Environment-specific Terraform values
 **/terraform.tfvars
 **/*.auto.tfvars
+
+# Databricks Asset Bundle local state
+.databricks/
+

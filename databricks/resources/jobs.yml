@@ -1,0 +1,68 @@
+﻿resources:
+  jobs:
+    f1_lakehouse_full_refresh:
+      name: f1-lakehouse-full-refresh-dev
+      description: Full-refresh medallion workflow for the F1 Lakehouse dev environment.
+      tasks:
+        - task_key: bronze_ingest_dimensions
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/bronze/02_ingest_dimensions.py
+
+        - task_key: bronze_ingest_facts
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/bronze/03_ingest_facts.py
+
+        - task_key: silver_dim_driver
+          depends_on:
+            - task_key: bronze_ingest_dimensions
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/silver/01_dim_driver.py
+
+        - task_key: silver_dim_constructor
+          depends_on:
+            - task_key: bronze_ingest_dimensions
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/silver/02_dim_constructor.py
+
+        - task_key: silver_dim_race
+          depends_on:
+            - task_key: bronze_ingest_facts
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/silver/03_dim_race.py
+
+        - task_key: silver_fact_results
+          depends_on:
+            - task_key: bronze_ingest_facts
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/silver/04_fact_results.py
+
+        - task_key: silver_fact_sprint_results
+          depends_on:
+            - task_key: bronze_ingest_facts
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/silver/05_fact_sprint_results.py
+
+        - task_key: gold_driver_performance
+          depends_on:
+            - task_key: silver_dim_driver
+            - task_key: silver_fact_results
+            - task_key: silver_fact_sprint_results
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/gold/01_driver_performance.py
+
+        - task_key: gold_constructor_performance
+          depends_on:
+            - task_key: silver_dim_constructor
+            - task_key: silver_fact_results
+            - task_key: silver_fact_sprint_results
+          existing_cluster_id: ${var.existing_cluster_id}
+          notebook_task:
+            notebook_path: ../notebooks/gold/02_constructor_performance.py

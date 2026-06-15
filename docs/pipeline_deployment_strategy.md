@@ -94,6 +94,19 @@ databricks/notebooks/
 
 This first migration intentionally preserves full-refresh behavior. Incremental ingestion is deferred because the Formula 1 dataset is currently small and the priority is to consolidate repository structure, deployment flow, data quality, and observability first.
 
+## Bundle foundation
+
+The initial bundle scaffold is now represented by:
+
+```text
+databricks.yml
+databricks/resources/jobs.yml
+```
+
+The first modeled resource is the `f1_lakehouse_full_refresh` job. It is intentionally conservative: it references an existing cluster through a variable instead of creating new compute automatically.
+
+This keeps the project aligned with enterprise deployment practice while avoiding surprise cloud cost during the learning phase.
+
 ## Future workflow direction
 
 Planned separation:
@@ -108,8 +121,11 @@ terraform-plan.yml
 terraform-apply.yml
 -> controlled infrastructure apply for dev
 
+databricks-bundle-validate.yml
+-> future pull request validation for bundle syntax/resources
+
 databricks-deploy.yml
--> future deployment of notebooks/jobs/dbt assets
+-> future controlled deployment of notebooks/jobs/dbt assets
 ```
 
 This preserves an enterprise boundary between infrastructure deployment and data pipeline deployment.
