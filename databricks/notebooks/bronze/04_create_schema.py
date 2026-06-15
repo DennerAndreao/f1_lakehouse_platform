@@ -6,4 +6,4 @@
 
 # COMMAND ----------
 
-spark.sql(f"CREATE DATABASE IF NOT EXISTS {SCHEMA}")
+spark.sql(f"CREATE SCHEMA IF NOT EXISTS {BRONZE_SCHEMA}")

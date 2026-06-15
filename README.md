@@ -29,6 +29,7 @@ Pipeline code versioning: started
 - Pull request Terraform plan feedback
 - Manual controlled Terraform apply for dev
 - Phase 1 Databricks notebooks migrated as source notebooks
+- Databricks notebooks refactored for Unity Catalog `f1_lakehouse_dev`
 
 ## Architecture summary
 
@@ -121,7 +122,7 @@ C:\terraform\terraform.exe plan
 
 - [x] Bring Phase 1 notebooks into the platform repository
 - [x] Store notebooks as Databricks `.py` source notebooks
-- [ ] Refactor notebooks for Unity Catalog catalog/schema naming
+- [x] Refactor notebooks for Unity Catalog catalog/schema naming
 - [ ] Prepare Databricks Asset Bundles structure
 - [ ] Add Databricks pipeline deployment workflow
 

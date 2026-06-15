@@ -9,8 +9,7 @@
 
 spark.sql(f"""
 
-CREATE OR REPLACE TABLE {SCHEMA_GOLD}.constructor_performance
-LOCATION 's3://f1-medallion-lakehouse/{SCHEMA_GOLD}/constructor_performance'
+CREATE OR REPLACE TABLE {GOLD_SCHEMA}.constructor_performance
 AS
 
 WITH combined_results AS (
@@ -19,7 +18,7 @@ WITH combined_results AS (
         constructor_id,
         points,
         position
-    FROM {SCHEMA_SILVER}.fact_results
+    FROM {SILVER_SCHEMA}.fact_results
 
     UNION ALL
 
@@ -27,7 +26,7 @@ WITH combined_results AS (
         constructor_id,
         points,
         position
-    FROM {SCHEMA_SILVER}.fact_sprint_results
+    FROM {SILVER_SCHEMA}.fact_sprint_results
 
 )
 
@@ -64,7 +63,7 @@ SELECT
 
 FROM combined_results cr
 
-LEFT JOIN {SCHEMA_SILVER}.dim_constructor dc
+LEFT JOIN {SILVER_SCHEMA}.dim_constructor dc
     ON cr.constructor_id = dc.constructor_id
 
 GROUP BY

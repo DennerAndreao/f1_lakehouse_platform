@@ -4,7 +4,7 @@ This directory is the future home for Databricks pipeline code.
 
 ## Current status
 
-The notebooks under `databricks/notebooks/` were migrated from the Phase 1 repository as Databricks source notebooks (`.py`). This first migration intentionally preserves the original full-refresh behavior and schema references.
+The notebooks under `databricks/notebooks/` were migrated from the Phase 1 repository as Databricks source notebooks (`.py`). They now target the Unity Catalog catalog `f1_lakehouse_dev` and use the medallion schemas provisioned by Terraform: `bronze`, `silver`, and `gold`.
 
 ```text
 databricks/notebooks/
@@ -19,15 +19,15 @@ Databricks source notebooks are easier to review in Git because pull requests sh
 
 ## Current processing strategy
 
-The project will continue using full refresh for now because the Formula 1 dataset is small and the 2026 season data volume is limited. Incremental ingestion is intentionally deferred until the platform and pipeline deployment model are more mature.
+The project will continue using full refresh for now because the Formula 1 dataset is small and the 2026 season data volume is limited. Incremental ingestion is intentionally deferred until the platform and pipeline deployment model are more mature. Tables are written as Unity Catalog managed tables so storage placement follows the catalog/schema configuration instead of hardcoded table locations.
 
 ## Future direction
 
 Planned evolution:
 
 ```text
-1. Version notebooks in this repository
-2. Refactor schemas/catalog references for Unity Catalog
+1. Version notebooks in this repository [done]
+2. Refactor schemas/catalog references for Unity Catalog [done]
 3. Introduce Databricks Asset Bundles
 4. Deploy notebooks/jobs through GitHub Actions
 5. Add data quality and observability

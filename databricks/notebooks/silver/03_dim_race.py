@@ -8,7 +8,7 @@
 
 from pyspark.sql.functions import col, to_date
 
-df = spark.table(f"{SCHEMA_BRONZE}.races")
+df = spark.table(f"{BRONZE_SCHEMA}.races")
 
 df_dim_race = df.select(
     col("season"),
@@ -21,10 +21,7 @@ df_dim_race = df.select(
     col("country")
 ).dropDuplicates(["season", "round"])
 
-spark.sql(f"USE {SCHEMA_SILVER}")
-
 df_dim_race.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA_SILVER}/dim_race") \
-    .saveAsTable(f"{SCHEMA_SILVER}.dim_race")
+    .saveAsTable(f"{SILVER_SCHEMA}.dim_race")

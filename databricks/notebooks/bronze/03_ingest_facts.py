@@ -16,8 +16,7 @@ from pyspark.sql.functions import current_timestamp, col, lit
 # SETUP
 # =========================
 
-spark.sql(f"CREATE DATABASE IF NOT EXISTS {SCHEMA}")
-spark.sql(f"USE {SCHEMA}")
+spark.sql(f"CREATE SCHEMA IF NOT EXISTS {BRONZE_SCHEMA}")
 
 # COMMAND ----------
 
@@ -51,8 +50,7 @@ df_races = spark.createDataFrame(races_flat) \
 df_races.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA}/races") \
-    .saveAsTable(f"{SCHEMA}.races")
+    .saveAsTable(f"{BRONZE_SCHEMA}.races")
 
 # =========================
 # RESULTS (FLATTEN)
@@ -99,8 +97,7 @@ df_results = spark.createDataFrame(results_flat) \
 df_results.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA}/results") \
-    .saveAsTable(f"{SCHEMA}.results")
+    .saveAsTable(f"{BRONZE_SCHEMA}.results")
 
 
 # =========================
@@ -148,5 +145,4 @@ df_sprint = spark.createDataFrame(sprint_flat) \
 df_sprint.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA}/sprint_results") \
-    .saveAsTable(f"{SCHEMA}.sprint_results")
+    .saveAsTable(f"{BRONZE_SCHEMA}.sprint_results")

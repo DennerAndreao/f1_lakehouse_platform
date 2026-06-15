@@ -12,9 +12,8 @@
 
 from pyspark.sql.functions import current_timestamp, col, to_date, lit
 
-# Keep schema
-spark.sql(f"CREATE DATABASE IF NOT EXISTS {SCHEMA}")
-spark.sql(f"USE {SCHEMA}")
+# Ensure Unity Catalog schema exists
+spark.sql(f"CREATE SCHEMA IF NOT EXISTS {BRONZE_SCHEMA}")
 
 # =========================
 # DRIVERS
@@ -42,8 +41,7 @@ df_drivers = df_drivers.select(
 df_drivers.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA}/drivers") \
-    .saveAsTable(f"{SCHEMA}.drivers")
+    .saveAsTable(f"{BRONZE_SCHEMA}.drivers")
 
 # =========================
 # CONSTRUCTORS
@@ -66,5 +64,4 @@ df_constructors = df_constructors.select(
 df_constructors.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA}/constructors") \
-    .saveAsTable(f"{SCHEMA}.constructors")
+    .saveAsTable(f"{BRONZE_SCHEMA}.constructors")

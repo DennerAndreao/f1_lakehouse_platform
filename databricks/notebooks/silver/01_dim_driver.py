@@ -8,7 +8,7 @@
 
 from pyspark.sql.functions import col
 
-df = spark.table(f"{SCHEMA_BRONZE}.drivers")
+df = spark.table(f"{BRONZE_SCHEMA}.drivers")
 
 df_dim_driver = df.select(
     col("driver_id"),
@@ -20,10 +20,7 @@ df_dim_driver = df.select(
     col("nationality")
 ).dropDuplicates(["driver_id"])
 
-spark.sql(f"USE {SCHEMA_SILVER}")
-
 df_dim_driver.write.format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .option("path", f"s3://f1-medallion-lakehouse/{SCHEMA_SILVER}/dim_driver") \
-    .saveAsTable(f"{SCHEMA_SILVER}.dim_driver")
+    .saveAsTable(f"{SILVER_SCHEMA}.dim_driver")
