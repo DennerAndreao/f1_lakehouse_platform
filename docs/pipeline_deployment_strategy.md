@@ -87,9 +87,9 @@ The Phase 1 notebooks have been migrated into this repository as Databricks sour
 
 ```text
 databricks/notebooks/
-??? bronze/
-??? silver/
-??? gold/
+|-- bronze/
+|-- silver/
+`-- gold/
 ```
 
 This first migration intentionally preserves full-refresh behavior. Incremental ingestion is deferred because the Formula 1 dataset is currently small and the priority is to consolidate repository structure, deployment flow, data quality, and observability first.
@@ -106,6 +106,25 @@ databricks/resources/jobs.yml
 The first modeled resource is the `f1_lakehouse_full_refresh` job. It is intentionally conservative: it uses a serverless job environment instead of depending on classic clusters.
 
 This keeps the project aligned with enterprise deployment practice while remaining compatible with the current Free Edition workspace constraints.
+
+## First successful pipeline execution
+
+The first Databricks Asset Bundle run completed successfully using the deployed `f1_lakehouse_full_refresh` job.
+
+```text
+databricks bundle run -t dev f1_lakehouse_full_refresh
+-> TERMINATED SUCCESS
+```
+
+This validates the current repository-to-Databricks deployment loop:
+
+```text
+source notebooks in Git
+-> bundle validate
+-> bundle deploy
+-> bundle run
+-> Bronze/Silver/Gold full refresh
+```
 
 ## Future workflow direction
 

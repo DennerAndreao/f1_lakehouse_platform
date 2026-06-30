@@ -8,9 +8,9 @@ The notebooks under `databricks/notebooks/` were migrated from the Phase 1 repos
 
 ```text
 databricks/notebooks/
-??? bronze/
-??? silver/
-??? gold/
+|-- bronze/
+|-- silver/
+`-- gold/
 ```
 
 ## Why `.py` notebooks instead of `.ipynb`?
@@ -74,3 +74,20 @@ databricks bundle deploy -t dev
 databricks bundle run -t dev f1_lakehouse_full_refresh
 -> execute the full-refresh job
 ```
+
+
+## First successful bundle run
+
+The first full-refresh job execution through Databricks Asset Bundles completed successfully:
+
+```text
+databricks bundle run -t dev f1_lakehouse_full_refresh
+```
+
+Result:
+
+```text
+TERMINATED SUCCESS
+```
+
+This confirms that the repository can now deploy and run the Databricks medallion workflow end to end.

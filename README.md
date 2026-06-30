@@ -7,10 +7,10 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~75%
+Phase 2 overall: ~80%
 IaC foundation: 100%
 CI/CD: ~90%
-Pipeline code versioning: started
+Pipeline deployment: started
 ```
 
 ## What this repository demonstrates
@@ -30,7 +30,7 @@ Pipeline code versioning: started
 - Manual controlled Terraform apply for dev
 - Phase 1 Databricks notebooks migrated as source notebooks
 - Databricks notebooks refactored for Unity Catalog `f1_lakehouse_dev`
-- Initial Databricks Asset Bundle scaffold for full-refresh workflow
+- Databricks Asset Bundle full-refresh workflow deployed and executed successfully
 
 ## Architecture summary
 
@@ -125,8 +125,10 @@ C:\terraform\terraform.exe plan
 - [x] Store notebooks as Databricks `.py` source notebooks
 - [x] Refactor notebooks for Unity Catalog catalog/schema naming
 - [x] Prepare Databricks Asset Bundles structure
-- [ ] Validate Databricks Asset Bundle with Databricks CLI
-- [ ] Add Databricks pipeline deployment workflow
+- [x] Validate Databricks Asset Bundle with Databricks CLI
+- [x] Deploy Databricks Asset Bundle to dev
+- [x] Execute full-refresh workflow through Databricks Bundle
+- [ ] Add Databricks pipeline deployment workflow in GitHub Actions
 
 ### 4. Data quality
 
