@@ -112,7 +112,36 @@ terraform-apply.yml
 
 This avoids mixing lightweight validation with privileged deployment behavior.
 
+## Databricks pipeline CI/CD status
+
+The Databricks pipeline deployment path has now started and is intentionally separate from Terraform infrastructure deployment.
+
+Implemented workflows:
+
+```text
+.github/workflows/databricks-bundle-validate.yml
+-> validates Databricks Asset Bundle changes on pull requests and pushes to main
+
+.github/workflows/databricks-bundle-deploy.yml
+-> manually deploys Databricks assets to dev through the GitHub dev environment
+```
+
+Current boundary:
+
+```text
+validate
+-> safe PR / main feedback
+
+deploy
+-> controlled manual release of notebooks/jobs to dev
+
+run
+-> still separate; next optional workflow
+```
+
+This mirrors an enterprise pattern where code deployment and pipeline execution are related but not automatically fused.
+
 ## Current recommendation
 
-Next recommended step: preserve Terraform as the infrastructure deployment path and introduce a separate Databricks pipeline deployment path for notebooks, jobs, dbt models, and future Gold tables.
+Next recommended step: add a controlled manual Databricks Bundle run workflow for dev. This will allow the deployed `f1_lakehouse_full_refresh` job to be triggered from GitHub Actions without mixing infrastructure deployment, pipeline asset deployment, and data processing in a single workflow.
 

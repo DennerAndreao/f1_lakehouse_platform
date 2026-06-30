@@ -7,10 +7,10 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~80%
+Phase 2 overall: ~82%
 IaC foundation: 100%
-CI/CD: ~94%
-Pipeline deployment: started
+CI/CD: ~96%
+Pipeline deployment: operational in dev
 ```
 
 ## What this repository demonstrates
@@ -31,8 +31,9 @@ Pipeline deployment: started
 - Phase 1 Databricks notebooks migrated as source notebooks
 - Databricks notebooks refactored for Unity Catalog `f1_lakehouse_dev`
 - Databricks Asset Bundle full-refresh workflow deployed and executed successfully
-- Databricks Bundle validation prepared for GitHub Actions
-- Manual Databricks Bundle deploy workflow prepared for dev
+- Databricks Bundle validation workflow running in GitHub Actions
+- Manual Databricks Bundle deploy workflow running successfully for dev
+- Databricks pipeline execution validated locally through Asset Bundles
 
 ## Architecture summary
 
@@ -93,6 +94,23 @@ C:\terraform\terraform.exe plan
 
 `terraform.tfvars` is intentionally local and ignored by Git.
 
+
+## Latest implementation checkpoint
+
+The platform now has a working Databricks Asset Bundle deployment loop for the dev environment:
+
+```text
+Git source notebooks
+-> Databricks Bundle validate
+-> Databricks Bundle deploy
+-> Databricks Bundle run
+-> Bronze/Silver/Gold full refresh
+```
+
+The full-refresh Databricks job has already run successfully from the local CLI, and the GitHub Actions workflows for Bundle validation and controlled Bundle deployment have also passed.
+
+Next controlled CI/CD step: add an optional manual workflow to run the deployed Databricks job from GitHub Actions, keeping deployment and execution as separate operational actions.
+
 ## Roadmap
 
 ### 1. Infrastructure as Code
@@ -119,7 +137,9 @@ C:\terraform\terraform.exe plan
 - [x] Separate IAM role for controlled apply
 - [x] Controlled deployment workflow
 - [x] First manual apply validation from GitHub Actions
-- [ ] Future deployment model for Databricks pipeline assets
+- [x] Databricks Bundle validation workflow
+- [x] Manual Databricks Bundle deploy workflow for dev
+- [ ] Optional manual Databricks Bundle run workflow
 
 ### 3. Databricks pipeline code
 

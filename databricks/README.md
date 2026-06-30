@@ -29,9 +29,10 @@ Planned evolution:
 1. Version notebooks in this repository [done]
 2. Refactor schemas/catalog references for Unity Catalog [done]
 3. Introduce Databricks Asset Bundles
-4. Deploy notebooks/jobs through GitHub Actions
-5. Add data quality and observability
-6. Add incremental processing later
+4. Deploy notebooks/jobs through GitHub Actions [in progress]
+5. Add optional controlled GitHub Actions job execution
+6. Add data quality and observability
+7. Add incremental processing later
 ```
 
 Terraform remains responsible for infrastructure. Databricks pipeline deployment will be handled separately.
@@ -91,3 +92,18 @@ TERMINATED SUCCESS
 ```
 
 This confirms that the repository can now deploy and run the Databricks medallion workflow end to end.
+
+
+## GitHub Actions status
+
+The Databricks Bundle validation and deployment workflows have passed successfully:
+
+```text
+databricks-bundle-validate.yml
+-> validates bundle configuration and resources
+
+databricks-bundle-deploy.yml
+-> manually deploys the bundle to dev
+```
+
+The next optional workflow is `databricks-bundle-run.yml`, which will trigger the already-deployed `f1_lakehouse_full_refresh` job from GitHub Actions.

@@ -173,6 +173,28 @@ databricks bundle deploy -t dev
 
 It does not run the full-refresh job automatically. Execution remains a separate step so deployment and data processing stay operationally distinct.
 
+The workflow has been validated successfully in GitHub Actions.
+
+## Current operational model
+
+The current Databricks delivery model is now:
+
+```text
+Pull Request
+-> databricks-bundle-validate.yml
+-> validates Bundle structure and resources
+
+Manual dev deploy
+-> databricks-bundle-deploy.yml
+-> validates and deploys notebooks/jobs to dev
+
+Manual execution
+-> currently local CLI
+-> future GitHub Actions workflow
+```
+
+This is deliberately close to enterprise practice: validation is automatic, deployment is controlled, and execution is explicit.
+
 ## Future workflow direction
 
 Planned separation:
@@ -194,7 +216,7 @@ databricks-bundle-deploy.yml
 -> controlled deployment of notebooks/jobs/dbt assets
 
 databricks-bundle-run.yml
--> future optional controlled execution of deployed jobs
+-> next optional controlled execution of deployed jobs
 ```
 
 This preserves an enterprise boundary between infrastructure deployment and data pipeline deployment.
