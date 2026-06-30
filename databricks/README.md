@@ -60,11 +60,7 @@ Bronze ingestion
 -> Gold analytical tables
 ```
 
-The job currently uses an `existing_cluster_id` variable instead of creating a new cluster. This avoids accidental compute creation and keeps the first bundle iteration safe. Before deploying or running the bundle, replace or override:
-
-```text
-existing_cluster_id = REPLACE_WITH_CLUSTER_ID
-```
+The job is configured for serverless task execution through a Databricks job environment. This avoids depending on classic clusters, which may not exist in the Free Edition workspace.
 
 Future CI/CD evolution:
 

@@ -4,11 +4,6 @@
 include:
   - databricks/resources/*.yml
 
-variables:
-  existing_cluster_id:
-    description: Existing interactive or job-capable cluster used to run the first full-refresh workflow.
-    default: REPLACE_WITH_CLUSTER_ID
-
 sync:
   include:
     - databricks/notebooks/**/*.py

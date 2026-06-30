@@ -103,9 +103,9 @@ databricks.yml
 databricks/resources/jobs.yml
 ```
 
-The first modeled resource is the `f1_lakehouse_full_refresh` job. It is intentionally conservative: it references an existing cluster through a variable instead of creating new compute automatically.
+The first modeled resource is the `f1_lakehouse_full_refresh` job. It is intentionally conservative: it uses a serverless job environment instead of depending on classic clusters.
 
-This keeps the project aligned with enterprise deployment practice while avoiding surprise cloud cost during the learning phase.
+This keeps the project aligned with enterprise deployment practice while remaining compatible with the current Free Edition workspace constraints.
 
 ## Future workflow direction
 
