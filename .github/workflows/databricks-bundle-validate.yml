@@ -1,0 +1,38 @@
+﻿name: Databricks Bundle Validate
+
+on:
+  pull_request:
+    paths:
+      - "databricks.yml"
+      - "databricks/**"
+      - ".github/workflows/databricks-bundle-validate.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "databricks.yml"
+      - "databricks/**"
+      - ".github/workflows/databricks-bundle-validate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  databricks-bundle-validate:
+    name: Databricks bundle validate
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: https://dbc-3e119ffc-1535.cloud.databricks.com
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Databricks bundle
+        run: databricks bundle validate -t dev

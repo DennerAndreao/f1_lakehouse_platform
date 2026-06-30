@@ -126,6 +126,29 @@ source notebooks in Git
 -> Bronze/Silver/Gold full refresh
 ```
 
+## GitHub Actions bundle validation
+
+The repository includes a dedicated workflow for Databricks Bundle validation:
+
+```text
+.github/workflows/databricks-bundle-validate.yml
+```
+
+It runs on pull requests and pushes to `main` when Databricks assets change:
+
+```text
+databricks.yml
+databricks/**
+```
+
+The workflow performs validation only:
+
+```text
+databricks bundle validate -t dev
+```
+
+It does not deploy or run jobs. Deployment and execution remain controlled local/manual steps until a separate Databricks deployment workflow is introduced.
+
 ## Future workflow direction
 
 Planned separation:
@@ -141,7 +164,7 @@ terraform-apply.yml
 -> controlled infrastructure apply for dev
 
 databricks-bundle-validate.yml
--> future pull request validation for bundle syntax/resources
+-> pull request validation for bundle syntax/resources
 
 databricks-deploy.yml
 -> future controlled deployment of notebooks/jobs/dbt assets
