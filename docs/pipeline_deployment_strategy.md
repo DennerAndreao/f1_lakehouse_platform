@@ -149,6 +149,30 @@ databricks bundle validate -t dev
 
 It does not deploy or run jobs. Deployment and execution remain controlled local/manual steps until a separate Databricks deployment workflow is introduced.
 
+## GitHub Actions bundle deployment
+
+The repository includes a manual workflow for controlled Databricks Bundle deployment:
+
+```text
+.github/workflows/databricks-bundle-deploy.yml
+```
+
+It is triggered manually and targets the GitHub `dev` environment:
+
+```text
+workflow_dispatch
+-> environment: dev
+```
+
+The workflow validates before deploying:
+
+```text
+databricks bundle validate -t dev
+databricks bundle deploy -t dev
+```
+
+It does not run the full-refresh job automatically. Execution remains a separate step so deployment and data processing stay operationally distinct.
+
 ## Future workflow direction
 
 Planned separation:
@@ -166,8 +190,11 @@ terraform-apply.yml
 databricks-bundle-validate.yml
 -> pull request validation for bundle syntax/resources
 
-databricks-deploy.yml
--> future controlled deployment of notebooks/jobs/dbt assets
+databricks-bundle-deploy.yml
+-> controlled deployment of notebooks/jobs/dbt assets
+
+databricks-bundle-run.yml
+-> future optional controlled execution of deployed jobs
 ```
 
 This preserves an enterprise boundary between infrastructure deployment and data pipeline deployment.

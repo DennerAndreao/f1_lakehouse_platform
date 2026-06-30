@@ -1,0 +1,30 @@
+﻿name: Databricks Bundle Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  databricks-bundle-deploy:
+    name: Databricks bundle deploy
+    runs-on: ubuntu-latest
+    environment: dev
+
+    env:
+      DATABRICKS_HOST: https://dbc-3e119ffc-1535.cloud.databricks.com
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Databricks bundle
+        run: databricks bundle validate -t dev
+
+      - name: Deploy Databricks bundle
+        run: databricks bundle deploy -t dev
