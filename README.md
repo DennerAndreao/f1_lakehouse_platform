@@ -7,10 +7,10 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~84%
+Phase 2 overall: ~86%
 IaC foundation: 100%
-CI/CD: ~98%
-Pipeline deployment: operational in dev
+CI/CD: 100%
+Pipeline deployment: operational and executable in dev
 ```
 
 ## What this repository demonstrates
@@ -34,7 +34,7 @@ Pipeline deployment: operational in dev
 - Databricks Bundle validation workflow running in GitHub Actions
 - Manual Databricks Bundle deploy workflow running successfully for dev
 - Databricks pipeline execution validated locally through Asset Bundles
-- Manual Databricks Bundle run workflow prepared for controlled dev execution
+- Manual Databricks Bundle run workflow validated successfully for controlled dev execution
 
 ## Architecture summary
 
@@ -108,9 +108,9 @@ Git source notebooks
 -> Bronze/Silver/Gold full refresh
 ```
 
-The full-refresh Databricks job has already run successfully from the local CLI, and the GitHub Actions workflows for Bundle validation and controlled Bundle deployment have also passed.
+The full-refresh Databricks job has run successfully from both the local CLI and GitHub Actions. The GitHub Actions workflows for Bundle validation, controlled Bundle deployment, and controlled Bundle execution have passed.
 
-Next controlled CI/CD step: validate the manual Databricks Bundle run workflow from GitHub Actions. This keeps deployment and execution as separate operational actions.
+Next implementation step: start the Data Quality foundation, beginning with simple Bronze and Silver validation checks before moving into richer observability.
 
 ## Roadmap
 
@@ -141,6 +141,7 @@ Next controlled CI/CD step: validate the manual Databricks Bundle run workflow f
 - [x] Databricks Bundle validation workflow
 - [x] Manual Databricks Bundle deploy workflow for dev
 - [x] Optional manual Databricks Bundle run workflow
+- [x] First manual Databricks Bundle run validation from GitHub Actions
 
 ### 3. Databricks pipeline code
 
@@ -154,6 +155,7 @@ Next controlled CI/CD step: validate the manual Databricks Bundle run workflow f
 - [x] Add Databricks Bundle validation workflow in GitHub Actions
 - [x] Add Databricks pipeline deployment workflow in GitHub Actions
 - [x] Add optional Databricks bundle run workflow in GitHub Actions
+- [x] Validate full-refresh execution from GitHub Actions
 
 ### 4. Data quality
 

@@ -190,20 +190,20 @@ Manual dev deploy
 
 Manual execution
 -> databricks-bundle-run.yml
--> runs the deployed full-refresh job through GitHub Actions
+-> runs the deployed full-refresh job through GitHub Actions [validated]
 ```
 
 This is deliberately close to enterprise practice: validation is automatic, deployment is controlled, and execution is explicit.
 
 ## GitHub Actions bundle execution
 
-The repository now includes a manual workflow for controlled Databricks job execution:
+The repository includes a validated manual workflow for controlled Databricks job execution:
 
 ```text
 .github/workflows/databricks-bundle-run.yml
 ```
 
-It targets the GitHub `dev` environment and executes:
+It targets the GitHub `dev` environment and has successfully executed:
 
 ```text
 databricks bundle validate -t dev
@@ -212,7 +212,7 @@ databricks bundle run -t dev f1_lakehouse_full_refresh
 
 It intentionally does not deploy the bundle before running. Deployment remains handled by `databricks-bundle-deploy.yml`, while execution remains handled by `databricks-bundle-run.yml`.
 
-This creates a clean operational boundary:
+This confirms a clean operational boundary:
 
 ```text
 change code

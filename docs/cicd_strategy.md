@@ -114,7 +114,7 @@ This avoids mixing lightweight validation with privileged deployment behavior.
 
 ## Databricks pipeline CI/CD status
 
-The Databricks pipeline deployment path has now started and is intentionally separate from Terraform infrastructure deployment.
+The Databricks pipeline deployment path is now operational and intentionally separate from Terraform infrastructure deployment.
 
 Implemented workflows:
 
@@ -126,7 +126,7 @@ Implemented workflows:
 -> manually deploys Databricks assets to dev through the GitHub dev environment
 
 .github/workflows/databricks-bundle-run.yml
--> manually runs the deployed full-refresh Databricks job through the GitHub dev environment
+-> manually runs the deployed full-refresh Databricks job through the GitHub dev environment [validated]
 ```
 
 Current boundary:
@@ -146,5 +146,5 @@ This mirrors an enterprise pattern where code deployment and pipeline execution 
 
 ## Current recommendation
 
-Next recommended step: validate the controlled manual Databricks Bundle run workflow in GitHub Actions. After it passes, the CI/CD foundation for infrastructure deployment, pipeline asset deployment, and pipeline execution will be complete enough to move into data quality.
+Current status: the CI/CD foundation for infrastructure deployment, pipeline asset deployment, and controlled pipeline execution is complete for the current dev-only architecture. Next recommended step: begin the Data Quality foundation.
 
