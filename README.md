@@ -7,9 +7,9 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~82%
+Phase 2 overall: ~84%
 IaC foundation: 100%
-CI/CD: ~96%
+CI/CD: ~98%
 Pipeline deployment: operational in dev
 ```
 
@@ -34,6 +34,7 @@ Pipeline deployment: operational in dev
 - Databricks Bundle validation workflow running in GitHub Actions
 - Manual Databricks Bundle deploy workflow running successfully for dev
 - Databricks pipeline execution validated locally through Asset Bundles
+- Manual Databricks Bundle run workflow prepared for controlled dev execution
 
 ## Architecture summary
 
@@ -109,7 +110,7 @@ Git source notebooks
 
 The full-refresh Databricks job has already run successfully from the local CLI, and the GitHub Actions workflows for Bundle validation and controlled Bundle deployment have also passed.
 
-Next controlled CI/CD step: add an optional manual workflow to run the deployed Databricks job from GitHub Actions, keeping deployment and execution as separate operational actions.
+Next controlled CI/CD step: validate the manual Databricks Bundle run workflow from GitHub Actions. This keeps deployment and execution as separate operational actions.
 
 ## Roadmap
 
@@ -139,7 +140,7 @@ Next controlled CI/CD step: add an optional manual workflow to run the deployed 
 - [x] First manual apply validation from GitHub Actions
 - [x] Databricks Bundle validation workflow
 - [x] Manual Databricks Bundle deploy workflow for dev
-- [ ] Optional manual Databricks Bundle run workflow
+- [x] Optional manual Databricks Bundle run workflow
 
 ### 3. Databricks pipeline code
 
@@ -152,7 +153,7 @@ Next controlled CI/CD step: add an optional manual workflow to run the deployed 
 - [x] Execute full-refresh workflow through Databricks Bundle
 - [x] Add Databricks Bundle validation workflow in GitHub Actions
 - [x] Add Databricks pipeline deployment workflow in GitHub Actions
-- [ ] Add optional Databricks bundle run workflow in GitHub Actions
+- [x] Add optional Databricks bundle run workflow in GitHub Actions
 
 ### 4. Data quality
 

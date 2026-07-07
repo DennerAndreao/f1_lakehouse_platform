@@ -1,0 +1,30 @@
+﻿name: Databricks Bundle Run
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  databricks-bundle-run:
+    name: Databricks bundle run
+    runs-on: ubuntu-latest
+    environment: dev
+
+    env:
+      DATABRICKS_HOST: https://dbc-3e119ffc-1535.cloud.databricks.com
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Databricks bundle
+        run: databricks bundle validate -t dev
+
+      - name: Run full-refresh Databricks job
+        run: databricks bundle run -t dev f1_lakehouse_full_refresh

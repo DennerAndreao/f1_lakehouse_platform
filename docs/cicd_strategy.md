@@ -124,6 +124,9 @@ Implemented workflows:
 
 .github/workflows/databricks-bundle-deploy.yml
 -> manually deploys Databricks assets to dev through the GitHub dev environment
+
+.github/workflows/databricks-bundle-run.yml
+-> manually runs the deployed full-refresh Databricks job through the GitHub dev environment
 ```
 
 Current boundary:
@@ -136,12 +139,12 @@ deploy
 -> controlled manual release of notebooks/jobs to dev
 
 run
--> still separate; next optional workflow
+-> controlled manual execution of the deployed full-refresh job
 ```
 
 This mirrors an enterprise pattern where code deployment and pipeline execution are related but not automatically fused.
 
 ## Current recommendation
 
-Next recommended step: add a controlled manual Databricks Bundle run workflow for dev. This will allow the deployed `f1_lakehouse_full_refresh` job to be triggered from GitHub Actions without mixing infrastructure deployment, pipeline asset deployment, and data processing in a single workflow.
+Next recommended step: validate the controlled manual Databricks Bundle run workflow in GitHub Actions. After it passes, the CI/CD foundation for infrastructure deployment, pipeline asset deployment, and pipeline execution will be complete enough to move into data quality.
 

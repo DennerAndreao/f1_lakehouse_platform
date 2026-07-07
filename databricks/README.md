@@ -30,7 +30,7 @@ Planned evolution:
 2. Refactor schemas/catalog references for Unity Catalog [done]
 3. Introduce Databricks Asset Bundles
 4. Deploy notebooks/jobs through GitHub Actions [in progress]
-5. Add optional controlled GitHub Actions job execution
+5. Add optional controlled GitHub Actions job execution [done]
 6. Add data quality and observability
 7. Add incremental processing later
 ```
@@ -106,4 +106,4 @@ databricks-bundle-deploy.yml
 -> manually deploys the bundle to dev
 ```
 
-The next optional workflow is `databricks-bundle-run.yml`, which will trigger the already-deployed `f1_lakehouse_full_refresh` job from GitHub Actions.
+The repository now includes `databricks-bundle-run.yml`, which triggers the already-deployed `f1_lakehouse_full_refresh` job from GitHub Actions.
