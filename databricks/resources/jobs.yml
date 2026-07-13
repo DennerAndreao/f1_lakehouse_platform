@@ -70,3 +70,11 @@
           environment_key: default
           notebook_task:
             notebook_path: ../notebooks/gold/02_constructor_performance.py
+
+        - task_key: quality_basic_checks
+          depends_on:
+            - task_key: gold_driver_performance
+            - task_key: gold_constructor_performance
+          environment_key: default
+          notebook_task:
+            notebook_path: ../notebooks/quality/01_basic_quality_checks.py
