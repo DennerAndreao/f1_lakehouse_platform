@@ -172,7 +172,7 @@ Next implementation step: parameterize catalog and season by Bundle target befor
 - [x] Connect the Power BI dashboard to `f1_lakehouse_dev.gold`
 - [ ] Parameterize catalog and season by Bundle target
 
-### 4. Data quality
+### 4. Data quality and execution audit (MVP)
 
 - [x] Basic Bronze and Silver validation rules
 - [x] Required-key, volume, uniqueness, and non-negative-value checks
@@ -180,21 +180,12 @@ Next implementation step: parameterize catalog and season by Bundle target befor
 - [x] Validate the `driver_points_timeline` Gold table in the quality gate
 - [x] Persist quality results in `f1_lakehouse_dev.quality.data_quality_results`
 - [x] Record all check results before failing the job
-- [ ] Silver referential checks
-- [ ] Warning and failure severity levels
-- [ ] Gold business rule checks, including cumulative-points reconciliation
 - [x] Persist-and-fail handling for critical validation failures
-
-### 5. Observability
-
 - [x] Lightweight quality and execution audit trail in `data_quality_results`
-- [ ] Execution metrics
-- [ ] Data quality metrics
-- [ ] Operational dashboard
 
-The Data Quality and Observability MVP is complete for the current personal-project scope. A dashboard, alerts, and richer per-task metrics remain intentionally deferred.
+This MVP is complete for the current personal-project scope. A dashboard, alerts, and richer validation rules are intentionally out of scope.
 
-### 6. Incremental ingestion
+### 5. Incremental ingestion
 
 Deferred intentionally while the data volume remains small and data quality plus observability are being consolidated.
 
