@@ -12,3 +12,7 @@ crash.*.log
 # Databricks Asset Bundle local state
 .databricks/
 
+# Power BI Desktop local state
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+

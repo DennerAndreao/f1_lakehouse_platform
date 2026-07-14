@@ -1,0 +1,114 @@
+table dim_race
+	lineageTag: fe5d1c22-3299-4724-b0c0-a0b38fb0e5e6
+
+	measure 'Total Races' =
+			
+			
+			DISTINCTCOUNT(
+			    dim_race[race_name]
+			)
+		formatString: 0
+		lineageTag: 6c561d06-ce98-4eb9-9766-a40fd8b64c3c
+
+	measure 'Completed Races' =
+			
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_race[race_name]),
+			    dim_race[race_date] <= TODAY()
+			)
+		formatString: 0
+		lineageTag: 998b2532-1053-46b7-a68a-cac1c66e39f6
+
+	measure 'Race Progress' =
+			
+			
+			[Completed Races]
+			& " / " &
+			[Total Races]
+		lineageTag: 238beca3-f76b-49a4-b497-8240071e6b5f
+
+	measure Season = "2026"
+		lineageTag: b42e2a11-60d6-414c-bb5a-dfd497eaa57c
+
+	column round
+		dataType: int64
+		formatString: 0
+		lineageTag: b4e54724-f9a1-49a8-900c-c848efbf9626
+		summarizeBy: none
+		sourceColumn: round
+
+		annotation SummarizationSetBy = Automatic
+
+	column race_name
+		dataType: string
+		lineageTag: 270aa87b-793b-4a14-bd55-847841723ce0
+		summarizeBy: none
+		sourceColumn: race_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column race_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4fefb650-0282-4bd6-8fbf-f2189da12a4b
+		summarizeBy: none
+		sourceColumn: race_date
+
+		variation Variation
+			isDefault
+			relationship: d4f710d4-5196-4c42-ac36-da7d3bee0c18
+			defaultHierarchy: LocalDateTable_f40c7a52-3107-46b3-b7c8-86c4e06c0d67.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column circuit_id
+		dataType: string
+		lineageTag: 0d9e13af-a684-4af0-b27e-ac071d583734
+		summarizeBy: none
+		sourceColumn: circuit_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column circuit_name
+		dataType: string
+		lineageTag: f909b17e-b2fa-4acf-891e-e558596e0510
+		summarizeBy: none
+		sourceColumn: circuit_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column locality
+		dataType: string
+		lineageTag: 1cf70d38-48f4-464b-a473-201e16abc4d4
+		summarizeBy: none
+		sourceColumn: locality
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 6d07c71d-f8c7-46c3-bd6b-2b45ed6f615d
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_race = m
+		mode: import
+		source =
+				let
+				    Fonte = DatabricksMultiCloud.Catalogs("dbc-3e119ffc-1535.cloud.databricks.com", "/sql/1.0/warehouses/98b9a0a721109c18", null),
+				    workspace_Database = Fonte{[Name="f1_lakehouse_dev",Kind="Database"]}[Data],
+				    silver_Schema = workspace_Database{[Name="silver",Kind="Schema"]}[Data],
+				    dim_race_Table = silver_Schema{[Name="dim_race",Kind="Table"]}[Data],
+				    #"Colunas Removidas" = Table.RemoveColumns(dim_race_Table,{"season"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

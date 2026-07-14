@@ -7,7 +7,7 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~88%
+Phase 2 overall: ~90%
 IaC foundation: 100%
 CI/CD: 100%
 Pipeline deployment: operational and executable in dev
@@ -37,6 +37,9 @@ Data Quality: foundation implemented and integrated into the workflow
 - Databricks pipeline execution validated locally through Asset Bundles
 - Manual Databricks Bundle run workflow validated successfully for controlled dev execution
 - Basic Data Quality gate executed successfully as part of the Databricks workflow
+- Paginated API ingestion validated with 198 Formula 1 race-result records
+- `driver_points_timeline` Gold table deployed and executed through GitHub Actions
+- Power BI dashboard consuming Gold tables from `f1_lakehouse_dev`
 
 ## Architecture summary
 
@@ -112,7 +115,9 @@ Git source notebooks
 
 The full-refresh Databricks job has run successfully from both the local CLI and GitHub Actions. The GitHub Actions workflows for Bundle validation, controlled Bundle deployment, and controlled Bundle execution have passed. The `quality_basic_checks` task has also run successfully at the end of the workflow.
 
-Next implementation step: persist data-quality results and evolve the checks before moving into richer observability.
+The Bronze pagination helper now uses the source API total record count, which fixed the nested-results pagination issue. The pipeline now ingests all 198 available 2026 result records. The `driver_points_timeline` Gold table was added, validated through the GitHub Actions deployment flow, and is available to the Power BI dashboard.
+
+Next implementation step: persist data-quality results, then add execution audit data and an operational view before starting incremental ingestion.
 
 ## Roadmap
 
@@ -158,17 +163,23 @@ Next implementation step: persist data-quality results and evolve the checks bef
 - [x] Add Databricks pipeline deployment workflow in GitHub Actions
 - [x] Add optional Databricks bundle run workflow in GitHub Actions
 - [x] Validate full-refresh execution from GitHub Actions
+- [x] Fix nested API pagination for full season result ingestion
+- [x] Add `driver_points_timeline` Gold table
+- [x] Validate a new Gold table through GitHub Actions deploy and run workflows
+- [x] Connect the Power BI dashboard to `f1_lakehouse_dev.gold`
+- [ ] Parameterize catalog and season by Bundle target
 
 ### 4. Data quality
 
 - [x] Basic Bronze and Silver validation rules
 - [x] Required-key, volume, uniqueness, and non-negative-value checks
 - [x] Run basic quality checks at the end of the full-refresh workflow
+- [x] Validate the `driver_points_timeline` Gold table in the quality gate
 - [ ] Persist quality results in a Delta table (for example, `f1_lakehouse_dev.quality.data_quality_results`)
 - [ ] Record all check results before failing the job
 - [ ] Silver referential checks
 - [ ] Warning and failure severity levels
-- [ ] Gold business rule checks
+- [ ] Gold business rule checks, including cumulative-points reconciliation
 - [ ] Failure handling strategy
 
 ### 5. Observability
@@ -177,6 +188,8 @@ Next implementation step: persist data-quality results and evolve the checks bef
 - [ ] Execution metrics
 - [ ] Data quality metrics
 - [ ] Operational dashboard
+
+Recommended next increment: create the data-quality results table and write every check result to it before the workflow raises a failure. This establishes the audit data that the observability layer will consume.
 
 ### 6. Incremental ingestion
 

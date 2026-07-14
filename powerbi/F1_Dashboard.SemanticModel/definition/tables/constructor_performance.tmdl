@@ -1,0 +1,132 @@
+table constructor_performance
+	lineageTag: 557b17cf-bffa-4965-be07-e8bdaa28c77b
+
+	measure 'Leading Constructor' =
+			
+			
+			VAR TopConstructor =
+			    TOPN(
+			        1,
+			        constructor_performance,
+			        constructor_performance[total_points],
+			        DESC
+			    )
+			
+			RETURN
+			    MAXX(
+			        TopConstructor,
+			        constructor_performance[name]
+			    )
+		lineageTag: 73692210-a284-4040-b488-08753ec73a26
+
+	measure 'Leading Constructor Points' =
+			
+			
+			MAXX(
+			    TOPN(
+			        1,
+			        constructor_performance,
+			        constructor_performance[total_points],
+			        DESC
+			    ),
+			    constructor_performance[total_points]
+			)
+		formatString: 0
+		lineageTag: ca8b13ba-c671-4016-b6d0-6186bd47edbf
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column constructor_id
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 470b60b1-ee50-4747-8365-2693516b1918
+		summarizeBy: none
+		sourceColumn: constructor_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 0f0d8a18-9759-4dd0-991f-e05f8638b801
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 066c76ed-a68c-4010-a6eb-e8a8365c8f55
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_points
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 19f907f6-f649-4906-9936-72901a4793c0
+		summarizeBy: sum
+		sourceColumn: total_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_events
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 3769c156-52eb-49b1-ab80-6fb18b08aab5
+		summarizeBy: sum
+		sourceColumn: total_events
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_finish_position
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 986c0433-3c0d-4087-85a4-a0e36b9ed0eb
+		summarizeBy: sum
+		sourceColumn: avg_finish_position
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column wins
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 5a345100-7cee-4ac6-b94a-5f85c1887255
+		summarizeBy: sum
+		sourceColumn: wins
+
+		annotation SummarizationSetBy = Automatic
+
+	column podiums
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ae07afc6-7746-48d5-8970-53b66d2504c7
+		summarizeBy: sum
+		sourceColumn: podiums
+
+		annotation SummarizationSetBy = Automatic
+
+	partition constructor_performance = m
+		mode: import
+		source =
+				let
+				    Fonte = DatabricksMultiCloud.Catalogs("dbc-3e119ffc-1535.cloud.databricks.com", "/sql/1.0/warehouses/98b9a0a721109c18", [Catalog = "", Database = ""]),
+				    workspace_Database = Fonte{[Name="f1_lakehouse_dev",Kind="Database"]}[Data],
+				    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+				    constructor_performance_Table = gold_Schema{[Name="constructor_performance",Kind="Table"]}[Data]
+				in
+				    constructor_performance_Table
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

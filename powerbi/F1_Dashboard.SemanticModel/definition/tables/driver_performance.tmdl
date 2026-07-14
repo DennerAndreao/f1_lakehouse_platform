@@ -1,0 +1,161 @@
+table driver_performance
+	lineageTag: c18c25ab-8ba6-444c-b4ab-17472007fde1
+
+	measure 'Championship Leader' =
+			
+			
+			VAR TopDriver =
+			    TOPN(
+			        1,
+			        driver_performance,
+			        driver_performance[total_points],
+			        DESC
+			    )
+			
+			RETURN
+			    MAXX(
+			        TopDriver,
+			        driver_performance[family_name]
+			    )
+		lineageTag: 2a8956cc-41bd-4424-afc8-a9f2d3974ef3
+
+	measure 'Leader Points' =
+			
+			
+			MAXX(
+			    TOPN(
+			        1,
+			        driver_performance,
+			        driver_performance[total_points],
+			        DESC
+			    ),
+			    driver_performance[total_points]
+			)
+		formatString: 0
+		lineageTag: 6ef39a7f-f7e3-426a-bcac-fb69595c5427
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Drivers' =
+			
+			
+			DISTINCTCOUNT(
+			    driver_performance[driver_id]
+			)
+		formatString: 0
+		lineageTag: a2f670a9-14fd-4265-b584-7b6f6c0af444
+
+	column driver_id
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 7acaef16-f72e-49e0-a453-d980be5ac85b
+		summarizeBy: none
+		sourceColumn: driver_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column given_name
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: cb9d7b1d-ac45-4621-9bc2-667081ff9111
+		summarizeBy: none
+		sourceColumn: given_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column family_name
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 126e4cda-0982-49a4-9a33-d4e6c972e61f
+		summarizeBy: none
+		sourceColumn: family_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 82ff5a14-3f28-4f3e-963e-20bb3bdcfff6
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_points
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 49f4fcc3-9476-4ae8-9d9b-c78dbd697ece
+		summarizeBy: sum
+		sourceColumn: total_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_events
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 9be1a12b-be8c-4bf0-8345-b7b57b2c9e66
+		summarizeBy: sum
+		sourceColumn: total_events
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_finish_position
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 0ad138bb-d3ef-4529-94a5-671ac30bcea3
+		summarizeBy: sum
+		sourceColumn: avg_finish_position
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_grid_position
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 1884b4be-909f-422d-a417-5eb59f1f10db
+		summarizeBy: sum
+		sourceColumn: avg_grid_position
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column wins
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b2d38789-2418-4249-8027-46cef5e014d4
+		summarizeBy: sum
+		sourceColumn: wins
+
+		annotation SummarizationSetBy = Automatic
+
+	column podiums
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 014f91dd-29f8-473c-a367-b8c3e388cec0
+		summarizeBy: sum
+		sourceColumn: podiums
+
+		annotation SummarizationSetBy = Automatic
+
+	partition driver_performance = m
+		mode: import
+		source =
+				let
+				    Fonte = DatabricksMultiCloud.Catalogs("dbc-3e119ffc-1535.cloud.databricks.com", "/sql/1.0/warehouses/98b9a0a721109c18", [Catalog = "", Database = ""]),
+				    workspace_Database = Fonte{[Name="f1_lakehouse_dev",Kind="Database"]}[Data],
+				    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+				    driver_performance_Table = gold_Schema{[Name="driver_performance",Kind="Table"]}[Data]
+				in
+				    driver_performance_Table
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

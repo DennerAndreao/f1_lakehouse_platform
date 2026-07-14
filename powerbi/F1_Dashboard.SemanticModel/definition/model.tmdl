@@ -1,0 +1,23 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["driver_performance","constructor_performance","dim_race","driver_points_timeline"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table driver_performance
+ref table constructor_performance
+ref table dim_race
+ref table DateTableTemplate_08bc8e55-7054-4b80-b0b5-d6f36d863d00
+ref table LocalDateTable_f40c7a52-3107-46b3-b7c8-86c4e06c0d67
+ref table driver_points_timeline
+
+ref cultureInfo pt-BR
+

@@ -1,0 +1,9 @@
+relationship d4f710d4-5196-4c42-ac36-da7d3bee0c18
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_race.race_date
+	toColumn: LocalDateTable_f40c7a52-3107-46b3-b7c8-86c4e06c0d67.Date
+
+relationship AutoDetected_e1ab5814-7cf2-4297-b136-22d8a4698da5
+	fromColumn: driver_points_timeline.round
+	toColumn: dim_race.round
+

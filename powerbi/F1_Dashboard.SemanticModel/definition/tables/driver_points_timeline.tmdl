@@ -1,0 +1,91 @@
+table driver_points_timeline
+	lineageTag: 32b15ca6-a885-42a7-b5bf-993d51bb324b
+
+	column round
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bab3349-cf66-411a-942d-7ac7e0cc629d
+		summarizeBy: none
+		sourceColumn: round
+
+		annotation SummarizationSetBy = Automatic
+
+	column race_name
+		dataType: string
+		lineageTag: 1382e9d5-93d2-4b6a-b163-24f015def07c
+		summarizeBy: none
+		sourceColumn: race_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_id
+		dataType: string
+		lineageTag: 72f4d5ac-d93c-477a-8377-eb7724a342be
+		summarizeBy: none
+		sourceColumn: driver_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_name
+		dataType: string
+		lineageTag: 300ad971-7a00-4962-9f57-46232ebd4fee
+		summarizeBy: none
+		sourceColumn: driver_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column race_points
+		dataType: double
+		lineageTag: 6261cd11-3df8-4ef4-9acb-96da8ed61366
+		summarizeBy: sum
+		sourceColumn: race_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sprint_points
+		dataType: double
+		lineageTag: f2e0f770-b062-483c-90fb-4b485c95ca89
+		summarizeBy: sum
+		sourceColumn: sprint_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_points
+		dataType: double
+		lineageTag: 2e84dbc7-f198-482b-b5b7-191e31ba8dce
+		summarizeBy: sum
+		sourceColumn: total_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cumulative_points
+		dataType: double
+		lineageTag: 4d54f42d-97bf-4a2a-8763-e3e20d050f9d
+		summarizeBy: sum
+		sourceColumn: cumulative_points
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition driver_points_timeline = m
+		mode: import
+		source =
+				let
+				    Fonte = DatabricksMultiCloud.Catalogs("dbc-3e119ffc-1535.cloud.databricks.com", "/sql/1.0/warehouses/98b9a0a721109c18", null),
+				    workspace_Database = Fonte{[Name="f1_lakehouse_dev",Kind="Database"]}[Data],
+				    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+				    driver_points_timeline_Table = gold_Schema{[Name="driver_points_timeline",Kind="Table"]}[Data]
+				in
+				    driver_points_timeline_Table
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
