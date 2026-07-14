@@ -7,10 +7,11 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~86%
+Phase 2 overall: ~88%
 IaC foundation: 100%
 CI/CD: 100%
 Pipeline deployment: operational and executable in dev
+Data Quality: foundation implemented and integrated into the workflow
 ```
 
 ## What this repository demonstrates
@@ -35,6 +36,7 @@ Pipeline deployment: operational and executable in dev
 - Manual Databricks Bundle deploy workflow running successfully for dev
 - Databricks pipeline execution validated locally through Asset Bundles
 - Manual Databricks Bundle run workflow validated successfully for controlled dev execution
+- Basic Data Quality gate executed successfully as part of the Databricks workflow
 
 ## Architecture summary
 
@@ -108,9 +110,9 @@ Git source notebooks
 -> Bronze/Silver/Gold full refresh
 ```
 
-The full-refresh Databricks job has run successfully from both the local CLI and GitHub Actions. The GitHub Actions workflows for Bundle validation, controlled Bundle deployment, and controlled Bundle execution have passed.
+The full-refresh Databricks job has run successfully from both the local CLI and GitHub Actions. The GitHub Actions workflows for Bundle validation, controlled Bundle deployment, and controlled Bundle execution have passed. The `quality_basic_checks` task has also run successfully at the end of the workflow.
 
-Next implementation step: start the Data Quality foundation, beginning with simple Bronze and Silver validation checks before moving into richer observability.
+Next implementation step: persist data-quality results and evolve the checks before moving into richer observability.
 
 ## Roadmap
 
@@ -159,21 +161,26 @@ Next implementation step: start the Data Quality foundation, beginning with simp
 
 ### 4. Data quality
 
-- [ ] Bronze validation rules
-- [ ] Silver referential and deduplication checks
+- [x] Basic Bronze and Silver validation rules
+- [x] Required-key, volume, uniqueness, and non-negative-value checks
+- [x] Run basic quality checks at the end of the full-refresh workflow
+- [ ] Persist quality results in a Delta table (for example, `f1_lakehouse_dev.quality.data_quality_results`)
+- [ ] Record all check results before failing the job
+- [ ] Silver referential checks
+- [ ] Warning and failure severity levels
 - [ ] Gold business rule checks
 - [ ] Failure handling strategy
 
 ### 5. Observability
 
-- [ ] Pipeline audit tables
+- [ ] Pipeline audit tables and execution metadata
 - [ ] Execution metrics
 - [ ] Data quality metrics
 - [ ] Operational dashboard
 
 ### 6. Incremental ingestion
 
-Deferred intentionally while the data volume remains small and the platform/pipeline deployment model is still being consolidated.
+Deferred intentionally while the data volume remains small and data quality plus observability are being consolidated.
 
 - [ ] Watermark strategy
 - [ ] Incremental race/season ingestion
