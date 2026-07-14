@@ -7,12 +7,17 @@ CATALOG = "f1_lakehouse_dev"
 BRONZE_SCHEMA = f"{CATALOG}.bronze"
 SILVER_SCHEMA = f"{CATALOG}.silver"
 GOLD_SCHEMA = f"{CATALOG}.gold"
+QUALITY_SCHEMA = f"{CATALOG}.quality"
+QUALITY_RESULTS_TABLE = f"{QUALITY_SCHEMA}.data_quality_results"
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, count as spark_count
+import json
+
+from pyspark.sql.functions import col, count as spark_count, current_timestamp, lit
 
 quality_results = []
+quality_failures = []
 
 
 def record_check(layer, table_name, check_name, status, details):
@@ -26,15 +31,17 @@ def record_check(layer, table_name, check_name, status, details):
 
 
 def fail(message):
-    raise Exception(f"Data quality check failed: {message}")
+    quality_failures.append(message)
 
 
 def assert_table_exists(layer, table_name):
     if not spark.catalog.tableExists(table_name):
         record_check(layer, table_name, "table_exists", "FAILED", "Table does not exist")
         fail(f"{table_name} does not exist")
+        return False
 
     record_check(layer, table_name, "table_exists", "PASSED", "Table exists")
+    return True
 
 
 def assert_min_rows(layer, table_name, min_rows=1):
@@ -43,8 +50,10 @@ def assert_min_rows(layer, table_name, min_rows=1):
     if row_count < min_rows:
         record_check(layer, table_name, "min_rows", "FAILED", f"Expected >= {min_rows}, found {row_count}")
         fail(f"{table_name} has {row_count} rows; expected at least {min_rows}")
+        return False
 
     record_check(layer, table_name, "min_rows", "PASSED", f"Found {row_count} rows")
+    return True
 
 
 def assert_not_null(layer, table_name, columns):
@@ -56,6 +65,7 @@ def assert_not_null(layer, table_name, columns):
         if null_count > 0:
             record_check(layer, table_name, f"not_null_{column_name}", "FAILED", f"Found {null_count} null values")
             fail(f"{table_name}.{column_name} has {null_count} null values")
+            continue
 
         record_check(layer, table_name, f"not_null_{column_name}", "PASSED", "No null values found")
 
@@ -75,8 +85,10 @@ def assert_unique_key(layer, table_name, key_columns):
     if duplicate_count > 0:
         record_check(layer, table_name, f"unique_key_{key_name}", "FAILED", f"Found {duplicate_count} duplicated key groups")
         fail(f"{table_name} has duplicated records for key {key_columns}")
+        return False
 
     record_check(layer, table_name, f"unique_key_{key_name}", "PASSED", "No duplicate key groups found")
+    return True
 
 
 def assert_no_negative_values(layer, table_name, column_name):
@@ -85,8 +97,10 @@ def assert_no_negative_values(layer, table_name, column_name):
     if negative_count > 0:
         record_check(layer, table_name, f"no_negative_{column_name}", "FAILED", f"Found {negative_count} negative values")
         fail(f"{table_name}.{column_name} has negative values")
+        return False
 
     record_check(layer, table_name, f"no_negative_{column_name}", "PASSED", "No negative values found")
+    return True
 
 # COMMAND ----------
 
@@ -98,9 +112,9 @@ bronze_required_tables = {
 }
 
 for table_name, required_columns in bronze_required_tables.items():
-    assert_table_exists("bronze", table_name)
-    assert_min_rows("bronze", table_name)
-    assert_not_null("bronze", table_name, required_columns)
+    if assert_table_exists("bronze", table_name):
+        assert_min_rows("bronze", table_name)
+        assert_not_null("bronze", table_name, required_columns)
 
 # Sprint can be empty depending on the current F1 season calendar/status.
 bronze_optional_tables = {
@@ -108,8 +122,8 @@ bronze_optional_tables = {
 }
 
 for table_name, required_columns in bronze_optional_tables.items():
-    assert_table_exists("bronze", table_name)
-    assert_not_null("bronze", table_name, required_columns)
+    if assert_table_exists("bronze", table_name):
+        assert_not_null("bronze", table_name, required_columns)
 
 # COMMAND ----------
 
@@ -121,22 +135,25 @@ silver_required_tables = {
 }
 
 for table_name, key_columns in silver_required_tables.items():
-    assert_table_exists("silver", table_name)
-    assert_min_rows("silver", table_name)
-    assert_not_null("silver", table_name, key_columns)
-    assert_unique_key("silver", table_name, key_columns)
+    if assert_table_exists("silver", table_name):
+        assert_min_rows("silver", table_name)
+        assert_not_null("silver", table_name, key_columns)
+        assert_unique_key("silver", table_name, key_columns)
 
 silver_optional_tables = {
     f"{SILVER_SCHEMA}.fact_sprint_results": ["season", "round", "driver_id"],
 }
 
 for table_name, key_columns in silver_optional_tables.items():
-    assert_table_exists("silver", table_name)
-    assert_not_null("silver", table_name, key_columns)
-    assert_unique_key("silver", table_name, key_columns)
+    if assert_table_exists("silver", table_name):
+        assert_not_null("silver", table_name, key_columns)
+        assert_unique_key("silver", table_name, key_columns)
 
-assert_no_negative_values("silver", f"{SILVER_SCHEMA}.fact_results", "points")
-assert_no_negative_values("silver", f"{SILVER_SCHEMA}.fact_sprint_results", "points")
+if spark.catalog.tableExists(f"{SILVER_SCHEMA}.fact_results"):
+    assert_no_negative_values("silver", f"{SILVER_SCHEMA}.fact_results", "points")
+
+if spark.catalog.tableExists(f"{SILVER_SCHEMA}.fact_sprint_results"):
+    assert_no_negative_values("silver", f"{SILVER_SCHEMA}.fact_sprint_results", "points")
 
 # COMMAND ----------
 
@@ -147,15 +164,38 @@ gold_tables = {
 }
 
 for table_name, required_columns in gold_tables.items():
-    assert_table_exists("gold", table_name)
-    assert_min_rows("gold", table_name)
-    assert_not_null("gold", table_name, required_columns)
-    assert_no_negative_values("gold", table_name, "total_points")
+    if assert_table_exists("gold", table_name):
+        assert_min_rows("gold", table_name)
+        assert_not_null("gold", table_name, required_columns)
+        assert_no_negative_values("gold", table_name, "total_points")
 
 # COMMAND ----------
 
-quality_df = spark.createDataFrame(quality_results)
+try:
+    context = json.loads(
+        dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
+    )
+    context_tags = context.get("tags", {})
+except Exception:
+    context_tags = {}
+
+spark.sql(f"CREATE SCHEMA IF NOT EXISTS {QUALITY_SCHEMA}")
+
+quality_df = (
+    spark.createDataFrame(quality_results)
+    .withColumn("job_id", lit(context_tags.get("jobId")).cast("string"))
+    .withColumn("job_run_id", lit(context_tags.get("jobRunId")).cast("string"))
+    .withColumn("task_run_id", lit(context_tags.get("runId")).cast("string"))
+    .withColumn("executed_at", current_timestamp())
+)
+
+quality_df.write.format("delta") \
+    .mode("append") \
+    .saveAsTable(QUALITY_RESULTS_TABLE)
 
 display(quality_df)
 
-print("All basic data quality checks passed successfully.")
+if quality_failures:
+    raise Exception("Data quality checks failed:\n- " + "\n- ".join(quality_failures))
+
+print("All basic data quality checks passed successfully and were persisted.")

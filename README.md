@@ -11,7 +11,7 @@ Phase 2 overall: ~90%
 IaC foundation: 100%
 CI/CD: 100%
 Pipeline deployment: operational and executable in dev
-Data Quality: foundation implemented and integrated into the workflow
+Data Quality and audit: MVP implemented and integrated into the workflow
 ```
 
 ## What this repository demonstrates
@@ -37,6 +37,7 @@ Data Quality: foundation implemented and integrated into the workflow
 - Databricks pipeline execution validated locally through Asset Bundles
 - Manual Databricks Bundle run workflow validated successfully for controlled dev execution
 - Basic Data Quality gate executed successfully as part of the Databricks workflow
+- Quality-check and execution metadata persisted in Delta for every pipeline run
 - Paginated API ingestion validated with 198 Formula 1 race-result records
 - `driver_points_timeline` Gold table deployed and executed through GitHub Actions
 - Power BI dashboard consuming Gold tables from `f1_lakehouse_dev`
@@ -117,7 +118,9 @@ The full-refresh Databricks job has run successfully from both the local CLI and
 
 The Bronze pagination helper now uses the source API total record count, which fixed the nested-results pagination issue. The pipeline now ingests all 198 available 2026 result records. The `driver_points_timeline` Gold table was added, validated through the GitHub Actions deployment flow, and is available to the Power BI dashboard.
 
-Next implementation step: persist data-quality results, then add execution audit data and an operational view before starting incremental ingestion.
+The quality gate persists its results and Databricks job metadata in `f1_lakehouse_dev.quality.data_quality_results` before failing the workflow. This provides a lightweight, durable audit trail appropriate for the current personal-project scope.
+
+Next implementation step: parameterize catalog and season by Bundle target before starting incremental ingestion or introducing additional environments.
 
 ## Roadmap
 
@@ -175,21 +178,21 @@ Next implementation step: persist data-quality results, then add execution audit
 - [x] Required-key, volume, uniqueness, and non-negative-value checks
 - [x] Run basic quality checks at the end of the full-refresh workflow
 - [x] Validate the `driver_points_timeline` Gold table in the quality gate
-- [ ] Persist quality results in a Delta table (for example, `f1_lakehouse_dev.quality.data_quality_results`)
-- [ ] Record all check results before failing the job
+- [x] Persist quality results in `f1_lakehouse_dev.quality.data_quality_results`
+- [x] Record all check results before failing the job
 - [ ] Silver referential checks
 - [ ] Warning and failure severity levels
 - [ ] Gold business rule checks, including cumulative-points reconciliation
-- [ ] Failure handling strategy
+- [x] Persist-and-fail handling for critical validation failures
 
 ### 5. Observability
 
-- [ ] Pipeline audit tables and execution metadata
+- [x] Lightweight quality and execution audit trail in `data_quality_results`
 - [ ] Execution metrics
 - [ ] Data quality metrics
 - [ ] Operational dashboard
 
-Recommended next increment: create the data-quality results table and write every check result to it before the workflow raises a failure. This establishes the audit data that the observability layer will consume.
+The Data Quality and Observability MVP is complete for the current personal-project scope. A dashboard, alerts, and richer per-task metrics remain intentionally deferred.
 
 ### 6. Incremental ingestion
 
