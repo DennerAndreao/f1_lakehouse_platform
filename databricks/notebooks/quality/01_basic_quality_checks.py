@@ -143,6 +143,7 @@ assert_no_negative_values("silver", f"{SILVER_SCHEMA}.fact_sprint_results", "poi
 gold_tables = {
     f"{GOLD_SCHEMA}.driver_performance": ["driver_id"],
     f"{GOLD_SCHEMA}.constructor_performance": ["constructor_id"],
+    f"{GOLD_SCHEMA}.driver_points_timeline": ["driver_id", "round"],
 }
 
 for table_name, required_columns in gold_tables.items():

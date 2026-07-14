@@ -71,10 +71,20 @@
           notebook_task:
             notebook_path: ../notebooks/gold/02_constructor_performance.py
 
+        - task_key: gold_driver_points_timeline
+          depends_on:
+            - task_key: silver_dim_driver
+            - task_key: silver_fact_results
+            - task_key: silver_fact_sprint_results
+          environment_key: default
+          notebook_task:
+            notebook_path: ../notebooks/gold/03_driver_points_timeline.py
+
         - task_key: quality_basic_checks
           depends_on:
             - task_key: gold_driver_performance
             - task_key: gold_constructor_performance
+            - task_key: gold_driver_points_timeline
           environment_key: default
           notebook_task:
             notebook_path: ../notebooks/quality/01_basic_quality_checks.py
