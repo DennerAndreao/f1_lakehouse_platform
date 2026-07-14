@@ -18,19 +18,21 @@ def fetch_paginated(endpoint_url, key):
             raise Exception(f"Erro na API: {response.status_code}")
 
         data = response.json()["MRData"]
+        total_records = int(data["total"])
 
         table = [v for k, v in data.items() if k.endswith("Table")][0]
         batch = table.get(key, [])
 
-        if not batch:
-            break
-
         all_data.extend(batch)
 
-        if len(batch) < limit:
+        offset += limit
+
+        # Some Ergast endpoints paginate nested records (for example,
+        # Results inside Races). The number of race objects is therefore not
+        # the number of records returned, so use MRData.total for termination.
+        if offset >= total_records:
             break
 
-        offset += limit
         time.sleep(0.2)
 
     return all_data
