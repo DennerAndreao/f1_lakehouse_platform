@@ -38,6 +38,7 @@ catalog_foundation        -> Unity Catalog catalog + bronze/silver/gold schemas
 lakehouse_storage         -> S3 lakehouse bucket and bucket-level controls
 storage_access_iam        -> IAM role, inline policy, and instance profile used by Databricks
 unity_catalog_governance  -> Unity Catalog grants for the dev principal
+github_actions_iam        -> GitHub Actions OIDC roles for Terraform plan and apply
 ```
 
 ## Local execution
@@ -52,7 +53,7 @@ C:\terraform\terraform.exe plan
 Required local authentication:
 
 - AWS credentials for the S3 backend and AWS resources
-- Databricks token with scopes needed by the active resources, currently Unity Catalog and SCIM-related operations
+- Databricks token with privileges needed by the active Unity Catalog resources
 
 ## Git hygiene
 

@@ -2,7 +2,7 @@
 
 The F1 Lakehouse Platform is the Phase 2 evolution of the original analytical lakehouse project.
 
-Its current role is to provide a governed, reproducible platform foundation for future data pipelines, CI/CD, data quality, and observability.
+Its current role is to provide a governed, reproducible platform for a full-refresh F1 pipeline, controlled CI/CD, and lightweight quality auditing.
 
 ## High-level flow
 
@@ -36,7 +36,8 @@ Databricks
 └── Schemas
     ├── bronze
     ├── silver
-    └── gold
+    ├── gold
+    └── quality
 ```
 
 ## Design principles
@@ -57,18 +58,18 @@ Reusable Terraform modules encode meaningful boundaries:
 - IAM access
 - Unity Catalog foundation
 - Unity Catalog governance
+- GitHub Actions IAM roles
 
-### Environment-first design
+### Deliberate dev-only scope
 
-The current environment is `dev`. Future `prod` support can reuse the same modules with separate backend state and environment-specific inputs.
+The project has one executable environment, `dev`. This is intentional for a personal portfolio project; the configuration remains explicit about that scope rather than simulating environments that do not exist.
 
 ### Honest governance
 
-Because this is currently an individual project, governance grants are assigned to the real development principal rather than pretending a large organization exists. Future account-level groups can be introduced when the project needs multi-user operation.
+Because this is currently an individual project, governance grants are assigned to the real development principal rather than pretending a large organization exists.
 
 ## Current limitations
 
 - Only `dev` exists today.
-- CI/CD has not yet been implemented.
-- Ingestion remains Phase 1-style and has not yet been converted to incremental processing.
-- Observability and data quality are planned but not yet implemented.
+- Ingestion is intentionally full refresh while data volume remains small.
+- The quality gate persists a lightweight audit trail in `f1_lakehouse_dev.quality.data_quality_results`; dashboards and alerts are out of scope.

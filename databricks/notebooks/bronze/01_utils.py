@@ -15,7 +15,7 @@ def fetch_paginated(endpoint_url, key):
         response = requests.get(url)
 
         if response.status_code != 200:
-            raise Exception(f"Erro na API: {response.status_code}")
+            raise Exception(f"API request failed: {response.status_code}")
 
         data = response.json()["MRData"]
         total_records = int(data["total"])
