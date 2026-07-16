@@ -7,7 +7,7 @@ The original Phase 1 repository remains the analytical baseline. This repository
 ## Current status
 
 ```text
-Phase 2 overall: ~90%
+Phase 2 overall: complete
 IaC foundation: 100%
 CI/CD: 100%
 Pipeline deployment: operational and executable in dev
@@ -120,7 +120,7 @@ The Bronze pagination helper now uses the source API total record count, which f
 
 The quality gate persists its results and Databricks job metadata in `f1_lakehouse_dev.quality.data_quality_results` before failing the workflow. This provides a lightweight, durable audit trail appropriate for the current personal-project scope.
 
-Next implementation step: parameterize catalog and season by Bundle target before starting incremental ingestion or introducing additional environments.
+Phase 2 is complete for the personal-project scope: governed dev infrastructure, CI/CD, full-refresh Bronze/Silver/Gold pipeline, lightweight quality audit, and a versioned Power BI dashboard are all operational.
 
 ## Roadmap
 
@@ -170,7 +170,7 @@ Next implementation step: parameterize catalog and season by Bundle target befor
 - [x] Add `driver_points_timeline` Gold table
 - [x] Validate a new Gold table through GitHub Actions deploy and run workflows
 - [x] Connect the Power BI dashboard to `f1_lakehouse_dev.gold`
-- [ ] Parameterize catalog and season by Bundle target
+- [x] Phase 2 complete for the personal-project scope
 
 ### 4. Data quality and execution audit (MVP)
 
@@ -185,14 +185,9 @@ Next implementation step: parameterize catalog and season by Bundle target befor
 
 This MVP is complete for the current personal-project scope. A dashboard, alerts, and richer validation rules are intentionally out of scope.
 
-### 5. Incremental ingestion
+## Future Phase 3
 
-Deferred intentionally while the data volume remains small and data quality plus observability are being consolidated.
-
-- [ ] Watermark strategy
-- [ ] Incremental race/season ingestion
-- [ ] Delta merge strategy
-- [ ] Batch metadata
+Incremental ingestion is intentionally deferred while the data volume remains small. A future Phase 3 can cover watermark strategy, incremental race/season ingestion, Delta merge behavior, and batch metadata.
 
 ## Relationship to Phase 1
 
