@@ -1,8 +1,8 @@
 # F1 Lakehouse Platform
 
-Phase 2 evolution of the original F1 Lakehouse project, focused on turning a functional analytical lakehouse into a production-oriented cloud data platform.
+Phase 2 evolution of the original F1 Lakehouse project, focused on turning a functional analytical lakehouse into an enterprise-style cloud data platform.
 
-The original Phase 1 repository remains the analytical baseline. This repository contains the platform engineering layer: infrastructure as code, cloud storage governance, Unity Catalog foundations, and the path toward CI/CD, observability, and operational maturity.
+The original Phase 1 repository remains the analytical baseline. This repository contains the platform engineering layer: Infrastructure as Code, cloud storage governance, Unity Catalog foundations, CI/CD, and lightweight execution auditing.
 
 ## Current status
 
@@ -56,10 +56,12 @@ Unity Catalog
 f1_lakehouse_dev
 ├── bronze
 ├── silver
-└── gold
+├── gold
+└── quality
+    └── data_quality_results
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview. See [`docs/cicd_strategy.md`](docs/cicd_strategy.md) for the CI/CD roadmap and authentication strategy. See [`docs/pipeline_deployment_strategy.md`](docs/pipeline_deployment_strategy.md) for the future Databricks pipeline deployment model.
+See [`docs/architecture.md`](docs/architecture.md) for the full architecture overview. See [`docs/cicd_strategy.md`](docs/cicd_strategy.md) for the current CI/CD strategy and authentication model. See [`docs/pipeline_deployment_strategy.md`](docs/pipeline_deployment_strategy.md) for the controlled Databricks Bundle deployment flow.
 
 ## Repository structure
 
@@ -70,9 +72,25 @@ terraform/
 │   └── dev/
 └── modules/
     ├── catalog_foundation/
+    ├── github_actions_iam/
     ├── lakehouse_storage/
     ├── storage_access_iam/
     └── unity_catalog_governance/
+
+databricks/
+├── notebooks/
+└── resources/
+
+.github/workflows/
+├── terraform-ci.yml
+├── terraform-plan.yml
+├── terraform-apply.yml
+├── databricks-bundle-validate.yml
+├── databricks-bundle-deploy.yml
+└── databricks-bundle-run.yml
+
+powerbi/
+└── F1_Dashboard.pbip
 
 docs/
 ├── architecture.md
