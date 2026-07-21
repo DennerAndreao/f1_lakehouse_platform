@@ -1,6 +1,6 @@
 ﻿# Architecture
 
-The F1 Lakehouse Platform is the Phase 2 evolution of the original analytical lakehouse project.
+The F1 Lakehouse Platform is the Phase 3 evolution of the original analytical lakehouse project.
 
 Its current role is to provide a governed, reproducible platform for a full-refresh F1 pipeline, controlled CI/CD, and lightweight quality auditing.
 
@@ -48,7 +48,7 @@ Infrastructure is declared in Terraform and tracked through remote state. Existi
 
 ### Separation of concerns
 
-The platform repository is separate from the Phase 1 analytics repository. This avoids mixing notebooks and dashboard assets with platform infrastructure.
+The platform repository is separate from the Phase 2 analytics repository. This avoids mixing notebooks and dashboard assets with platform infrastructure.
 
 ### Modular infrastructure
 

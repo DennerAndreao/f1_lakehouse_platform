@@ -1,13 +1,13 @@
 # F1 Lakehouse Platform
 
-Phase 2 evolution of the original F1 Lakehouse project, focused on turning a functional analytical lakehouse into an enterprise-style cloud data platform.
+Phase 3 evolution of the original F1 Lakehouse project, focused on turning a functional analytical lakehouse into an enterprise-style cloud data platform.
 
-The original Phase 1 repository remains the analytical baseline. This repository contains the platform engineering layer: Infrastructure as Code, cloud storage governance, Unity Catalog foundations, CI/CD, and lightweight execution auditing.
+The original Phase 2 repository remains the analytical baseline. This repository contains the platform engineering layer: Infrastructure as Code, cloud storage governance, Unity Catalog foundations, CI/CD, and lightweight execution auditing.
 
 ## Current status
 
 ```text
-Phase 2 overall: complete
+Phase 3 overall: complete
 IaC foundation: 100%
 CI/CD: 100%
 Pipeline deployment: operational and executable in dev
@@ -29,7 +29,7 @@ Data Quality and audit: MVP implemented and integrated into the workflow
 - GitHub Actions OIDC roles for Terraform plan and controlled apply
 - Pull request Terraform plan feedback
 - Manual controlled Terraform apply for dev
-- Phase 1 Databricks notebooks migrated as source notebooks
+- Phase 2 Databricks notebooks migrated as source notebooks
 - Databricks notebooks refactored for Unity Catalog `f1_lakehouse_dev`
 - Databricks Asset Bundle full-refresh workflow deployed and executed successfully
 - Databricks Bundle validation workflow running in GitHub Actions
@@ -138,7 +138,7 @@ The Bronze pagination helper now uses the source API total record count, which f
 
 The quality gate persists its results and Databricks job metadata in `f1_lakehouse_dev.quality.data_quality_results` before failing the workflow. This provides a lightweight, durable audit trail appropriate for the current personal-project scope.
 
-Phase 2 is complete for the personal-project scope: governed dev infrastructure, CI/CD, full-refresh Bronze/Silver/Gold pipeline, lightweight quality audit, and a versioned Power BI dashboard are all operational.
+Phase 3 is complete for the personal-project scope: governed dev infrastructure, CI/CD, full-refresh Bronze/Silver/Gold pipeline, lightweight quality audit, and a versioned Power BI dashboard are all operational.
 
 ## Roadmap
 
@@ -173,7 +173,7 @@ Phase 2 is complete for the personal-project scope: governed dev infrastructure,
 
 ### 3. Databricks pipeline code
 
-- [x] Bring Phase 1 notebooks into the platform repository
+- [x] Bring Phase 2 notebooks into the platform repository
 - [x] Store notebooks as Databricks `.py` source notebooks
 - [x] Refactor notebooks for Unity Catalog catalog/schema naming
 - [x] Prepare Databricks Asset Bundles structure
@@ -188,7 +188,7 @@ Phase 2 is complete for the personal-project scope: governed dev infrastructure,
 - [x] Add `driver_points_timeline` Gold table
 - [x] Validate a new Gold table through GitHub Actions deploy and run workflows
 - [x] Connect the Power BI dashboard to `f1_lakehouse_dev.gold`
-- [x] Phase 2 complete for the personal-project scope
+- [x] Phase 3 complete for the personal-project scope
 
 ### 4. Data quality and execution audit (MVP)
 
@@ -203,13 +203,13 @@ Phase 2 is complete for the personal-project scope: governed dev infrastructure,
 
 This MVP is complete for the current personal-project scope. A dashboard, alerts, and richer validation rules are intentionally out of scope.
 
-## Future Phase 3
+## Future Phase 4
 
-Incremental ingestion is intentionally deferred while the data volume remains small. A future Phase 3 can cover watermark strategy, incremental race/season ingestion, Delta merge behavior, and batch metadata.
+Incremental ingestion is intentionally deferred while the data volume remains small. A future Phase 4 can cover watermark strategy, incremental race/season ingestion, Delta merge behavior, and batch metadata.
 
-## Relationship to Phase 1
+## Relationship to Phase 2
 
-Phase 1 proved the analytical lakehouse pattern with Formula 1 data and Power BI reporting.
+Phase 2 proved the analytical lakehouse pattern with Formula 1 data and Power BI reporting.
 
-Phase 2 turns that foundation into a governed platform layer, emphasizing reproducibility, cloud-native architecture, security boundaries, and operational readiness.
+Phase 3 turns that foundation into a governed platform layer, emphasizing reproducibility, cloud-native architecture, security boundaries, and operational readiness.
 
